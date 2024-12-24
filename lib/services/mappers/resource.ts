@@ -2,7 +2,6 @@ import { Resource, ResourceInfra } from '~/lib/types/resources';
 import { dateToString } from '~/lib/utils/dates';
 
 export const mapResourceInfraToApplication = (resource: ResourceInfra): Resource => {
-	console.log(resource.updatedat);
 	return {
 		id: resource.id,
 		title: resource.title,

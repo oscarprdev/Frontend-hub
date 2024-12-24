@@ -5,6 +5,7 @@ import {
 	ResourceListSidebarFallback,
 } from '~/components/resouce-list-sidebar';
 import { ResourceList, ResourceListFallback } from '~/components/resource-list';
+import ResourceSearch from '~/components/resource-search';
 import {
 	Accordion,
 	AccordionContent,
@@ -14,35 +15,17 @@ import {
 import { RESOURCE_CATEGORY } from '~/lib/types/resources';
 import { cn } from '~/lib/utils/cn';
 
-export default function Home({ searchParams }: { searchParams: { category?: string } }) {
-	const category = searchParams?.category as RESOURCE_CATEGORY;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export default async function Home({ searchParams }: { searchParams: SearchParams }) {
+	const category = (await searchParams)?.category as RESOURCE_CATEGORY;
 
 	return (
-		<div className="size-screen grid grid-cols-8 p-5">
-			{/* Sidebar */}
-			<aside className="col-span-2 h-screen pr-8">
-				<Accordion
-					type="single"
-					collapsible
-					className="w-full"
-					defaultValue={Object.values(RESOURCE_CATEGORY)[0]}>
-					{Object.values(RESOURCE_CATEGORY).map(category => (
-						<AccordionItem key={crypto.randomUUID()} value={category} className="-mb-4">
-							<AccordionTrigger className="text-lg font-bold capitalize">
-								{category.toLowerCase()}
-							</AccordionTrigger>
-							<AccordionContent>
-								<Suspense fallback={<ResourceListSidebarFallback />}>
-									<ResourceListSidebar category={category} />
-								</Suspense>
-							</AccordionContent>
-						</AccordionItem>
-					))}
-				</Accordion>
-			</aside>
-			{/* Main content */}
-			<section className="col-span-6 flex flex-col gap-5">
-				<div className="ml-2 flex w-full flex-wrap items-center gap-2">
+		<div className="size-screen flex flex-col p-5">
+			{/* Nav */}
+			<nav className="size-screen grid grid-cols-8">
+				<ResourceSearch />
+				<div className="col-span-6 ml-2 flex w-full flex-wrap items-center gap-2">
 					{Object.values(RESOURCE_CATEGORY).map(cat => (
 						<Link
 							key={crypto.randomUUID()}
@@ -57,10 +40,39 @@ export default function Home({ searchParams }: { searchParams: { category?: stri
 						</Link>
 					))}
 				</div>
-				<Suspense fallback={<ResourceListFallback />}>
-					<ResourceList category={category} />
-				</Suspense>
-			</section>
+			</nav>
+			<main className="size-screen grid grid-cols-8 p-5">
+				{/* Sidebar */}
+				<aside className="col-span-2 h-screen pr-8">
+					<Accordion
+						type="single"
+						collapsible
+						className="w-full"
+						defaultValue={Object.values(RESOURCE_CATEGORY)[0]}>
+						{Object.values(RESOURCE_CATEGORY).map(category => (
+							<AccordionItem
+								key={crypto.randomUUID()}
+								value={category}
+								className="-mb-4 first-of-type:-mt-3">
+								<AccordionTrigger className="text-lg font-bold capitalize">
+									{category.toLowerCase()}
+								</AccordionTrigger>
+								<AccordionContent>
+									<Suspense fallback={<ResourceListSidebarFallback />}>
+										<ResourceListSidebar category={category} />
+									</Suspense>
+								</AccordionContent>
+							</AccordionItem>
+						))}
+					</Accordion>
+				</aside>
+				{/* Main content */}
+				<section className="col-span-6 flex flex-col gap-5">
+					<Suspense fallback={<ResourceListFallback />}>
+						<ResourceList category={category} />
+					</Suspense>
+				</section>
+			</main>
 		</div>
 	);
 }
