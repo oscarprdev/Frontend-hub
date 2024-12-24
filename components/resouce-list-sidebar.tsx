@@ -7,7 +7,7 @@ const ResourceListSidebar = async ({ category }: { category: RESOURCE_CATEGORY }
 	const resources = await listResourcesByCategory({ category });
 
 	return (
-		<div className="flex flex-col items-start gap-2">
+		<div className="-my-2 flex flex-col items-start">
 			{resources.map(resource => (
 				<Link
 					key={resource.id}

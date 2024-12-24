@@ -38,7 +38,7 @@ export async function listResourcesByCategory({
 
 	const sql = neon(DATABASE_URL);
 	const result = await sql(
-		`SELECT title, url FROM resources WHERE category = ($1) ORDER BY updatedat DESC;`,
+		`SELECT id, title, url FROM resources WHERE category = ($1) ORDER BY updatedat DESC;`,
 		[category]
 	);
 

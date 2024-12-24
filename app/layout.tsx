@@ -1,9 +1,19 @@
+import { createResourceAction } from './actions/createResource';
 import './globals.css';
-import { Layers2 } from 'lucide-react';
+import { Layers2, Plus } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import ResourceForm from '~/components/resource-form';
 import { ThemeProvider } from '~/components/theme-provider';
 import ThemeToggle from '~/components/theme-toggle';
+import { Button } from '~/components/ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '~/components/ui/dialog';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -34,7 +44,22 @@ export default function RootLayout({
 							<Layers2 />
 							<h1 className="font-bold">frontend/hub</h1>
 						</div>
-						<ThemeToggle />
+						<div className="flex items-center gap-2">
+							<Dialog>
+								<DialogTrigger asChild>
+									<Button variant={'outline'} size={'icon'}>
+										<Plus />
+									</Button>
+								</DialogTrigger>
+								<DialogContent>
+									<DialogHeader>
+										<DialogTitle>Add new Resource</DialogTitle>
+										<ResourceForm submitAction={createResourceAction} />
+									</DialogHeader>
+								</DialogContent>
+							</Dialog>
+							<ThemeToggle />
+						</div>
 					</header>
 					{children}
 				</ThemeProvider>

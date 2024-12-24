@@ -21,9 +21,13 @@ export default function Home({ searchParams }: { searchParams: { category?: stri
 		<div className="size-screen grid grid-cols-8 p-5">
 			{/* Sidebar */}
 			<aside className="col-span-2 h-screen pr-8">
-				<Accordion type="single" collapsible className="w-full">
+				<Accordion
+					type="single"
+					collapsible
+					className="w-full"
+					defaultValue={Object.values(RESOURCE_CATEGORY)[0]}>
 					{Object.values(RESOURCE_CATEGORY).map(category => (
-						<AccordionItem key={category} value={category} className="-mb-4">
+						<AccordionItem key={crypto.randomUUID()} value={category} className="-mb-4">
 							<AccordionTrigger className="text-lg font-bold capitalize">
 								{category.toLowerCase()}
 							</AccordionTrigger>
@@ -41,7 +45,7 @@ export default function Home({ searchParams }: { searchParams: { category?: stri
 				<div className="ml-2 flex w-full flex-wrap items-center gap-2">
 					{Object.values(RESOURCE_CATEGORY).map(cat => (
 						<Link
-							key={cat}
+							key={crypto.randomUUID()}
 							href={cat === category ? `/` : `/?category=${cat}`}
 							className={cn(
 								cat === category
