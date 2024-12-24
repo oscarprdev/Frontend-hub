@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: hsl(0 0 95%);
+		--foreground: hsl(220 22% 10%);
+
+		--accent: hsl(220, 73%, 58%);
+		--accent-light: hsl(220, 67%, 65%);
+		--accent-dark: hsl(220, 55%, 49%);
+		--accent-foreground: hsl(240, 43%, 95%);
+
+		--border: hsl(225 25% 46%);
+		--border-foreground: hsl(0 0 90%);
+
+		--destructive: hsl(0 84.2% 60.2%);
+		--destructive-foreground: hsl(0 0% 98%);
+
+		--muted: hsl(240, 3%, 39%);
+		--muted-light: hsl(0, 0%, 84%);
+		--input: hsl(240 5.9% 90%);
+		--ring: hsl(240 10% 3.9%);
+
+		--radius: 0.5rem;
+	}
+	.dark {
+		--background: hsl(220 22% 10%);
+		--foreground: hsl(0 0 95%);
+
+		--accent-foreground: hsl(218 45% 18%);
+
+		--border: hsl(222 16% 71%);
+		--border-foreground: hsl(248 14% 18%);
+
+		--muted: hsl(240, 4%, 77%);
+		--input: hsl(240 10% 3.9%);
+		--ring: hsl(240 5.9% 90%);
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+}
