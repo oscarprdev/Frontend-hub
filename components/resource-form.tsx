@@ -55,9 +55,7 @@ const ResourceForm = ({ optimiticAction }: ResourceFormProps) => {
 	};
 
 	return (
-		<form
-			action={handleSubmitAction}
-			className="flex w-1/2 flex-col items-center gap-2 border p-2">
+		<form action={handleSubmitAction} className="flex w-1/2 flex-col items-center gap-2 border p-2">
 			<label className="w-full">
 				<input
 					className="w-full border p-2"
@@ -76,13 +74,7 @@ const ResourceForm = ({ optimiticAction }: ResourceFormProps) => {
 				/>
 			</label>
 			<label className="w-full">
-				<input
-					className="w-full border p-2"
-					type="text"
-					name="url"
-					placeholder="URL"
-					required
-				/>
+				<input className="w-full border p-2" type="text" name="url" placeholder="URL" required />
 			</label>
 			<label className="w-full">
 				<input

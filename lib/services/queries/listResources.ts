@@ -17,10 +17,9 @@ export async function listResources({ category }: ListResourcesPayload): Promise
 	if (!category) {
 		result = await sql(`SELECT * FROM resources ORDER BY updatedat DESC;`);
 	} else {
-		result = await sql(
-			`SELECT * FROM resources WHERE category = ($1) ORDER BY updatedat DESC;`,
-			[category]
-		);
+		result = await sql(`SELECT * FROM resources WHERE category = ($1) ORDER BY updatedat DESC;`, [
+			category,
+		]);
 	}
 
 	return returnResourcesList(result as ResourceInfra[]);

@@ -28,12 +28,8 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="dark"
-					enableSystem
-					disableTransitionOnChange>
-					<header className="border-border-foreground flex h-16 items-center justify-between border-b px-4">
+				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+					<header className="flex h-16 items-center justify-between border-b border-border-foreground px-4">
 						<div className="flex items-center gap-2">
 							<Layers2 />
 							<h1 className="font-bold">frontend/hub</h1>

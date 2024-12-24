@@ -36,7 +36,7 @@ const ResourceCard = ({
 				/>
 				<Link
 					href={url}
-					className="group/link to-accent-light absolute bottom-1 right-2 flex items-center justify-between gap-2 rounded-full bg-gradient-to-t from-accent px-3.5 py-1.5 text-sm text-white opacity-0 transition-all duration-500 ease-in-out group-hover:-translate-y-2 group-hover:opacity-100">
+					className="group/link absolute bottom-1 right-2 flex items-center justify-between gap-2 rounded-full bg-gradient-to-t from-accent to-accent-light px-3.5 py-1.5 text-sm text-white opacity-0 transition-all duration-500 ease-in-out group-hover:-translate-y-2 group-hover:opacity-100">
 					View
 					<MoveUpRight
 						size={16}
@@ -47,15 +47,13 @@ const ResourceCard = ({
 
 			<p className="text-xs text-muted">{updatedAt}</p>
 			<Link href={`/?category=${category}`} className="group w-fit shadow-sm">
-				<Badge className="group-hover:bg-muted-light w-fit duration-300">{category}</Badge>
+				<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 			</Link>
 
 			<Link href={url} target="_blank" className="w-fit text-xl font-bold hover:underline">
 				{title}
 			</Link>
-			<p className="line-clamp-3 max-w-[80ch] text-pretty text-sm text-muted">
-				{description}
-			</p>
+			<p className="line-clamp-3 max-w-[80ch] text-pretty text-sm text-muted">{description}</p>
 		</article>
 	);
 };
