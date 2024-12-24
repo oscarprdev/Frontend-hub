@@ -12,7 +12,7 @@ import {
 	AccordionTrigger,
 } from '~/components/ui/accordion';
 import { RESOURCE_CATEGORY } from '~/lib/types/resources';
-import { cn } from '~/lib/utils';
+import { cn } from '~/lib/utils/cn';
 
 export default function Home({ searchParams }: { searchParams: { category?: string } }) {
 	const category = searchParams?.category as RESOURCE_CATEGORY;
