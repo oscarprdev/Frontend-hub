@@ -1,3 +1,4 @@
+import DeleteResourceBtn from './delete-resource-btn';
 import { Badge } from './ui/badge';
 import { MoveUpRight } from 'lucide-react';
 import Image from 'next/image';
@@ -46,9 +47,12 @@ const ResourceCard = ({
 			</picture>
 
 			<p className="text-xs text-muted">{updatedAt}</p>
-			<Link href={`/?category=${category}`} className="group w-fit shadow-sm">
-				<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
-			</Link>
+			<div className="flex items-center gap-2">
+				<Link href={`/?category=${category}`} className="group flex w-fit shadow-sm">
+					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
+				</Link>
+				<DeleteResourceBtn resourceId={id} />
+			</div>
 
 			<Link href={url} target="_blank" className="w-fit text-xl font-bold hover:underline">
 				{title}
