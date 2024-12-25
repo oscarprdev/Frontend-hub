@@ -23,6 +23,7 @@ export default {
 				},
 				destructive: {
 					DEFAULT: 'var(--destructive)',
+					light: 'var(--destructive-light)',
 					foreground: 'var(--destructive-foreground)',
 				},
 				border: {

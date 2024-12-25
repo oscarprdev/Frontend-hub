@@ -17,6 +17,7 @@
 		--border-foreground: hsl(0 0 90%);
 
 		--destructive: hsl(0 84.2% 60.2%);
+		--destructive-light: hsl(0, 65%, 91%);
 		--destructive-foreground: hsl(0 0% 98%);
 
 		--muted: hsl(240, 3%, 45%);

@@ -17,14 +17,14 @@ const DeleteResourceBtn = ({ resourceId }: { resourceId: string }) => {
 	};
 	return (
 		<Button
-			className="group size-8 rounded-full bg-border-foreground"
+			className="group size-8 rounded-full bg-border-foreground duration-300"
 			variant={'destructive'}
 			size={'icon'}
 			onClick={handleDelete}>
 			{isDeleting ? (
 				<Loader className="animate-spin" />
 			) : (
-				<Delete className="text-foreground group-hover:text-background" />
+				<Delete className="text-muted group-hover:text-destructive" />
 			)}
 		</Button>
 	);

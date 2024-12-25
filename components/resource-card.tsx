@@ -1,9 +1,13 @@
 import DeleteResourceBtn from './delete-resource-btn';
+import ResourceForm from './resource-form';
 import { Badge } from './ui/badge';
-import { MoveUpRight } from 'lucide-react';
+import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { MoveUpRight, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { editResourceAction } from '~/app/actions/editResource';
 import { RESOURCE_CATEGORY } from '~/lib/types/resources';
 
 type ResourceCardProps = {
@@ -54,6 +58,25 @@ const ResourceCard = ({
 					className="group flex w-fit shadow-sm">
 					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 				</Link>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button
+							variant={'outline'}
+							size={'icon'}
+							className="size-8 rounded-full bg-border-foreground text-muted">
+							<Pencil />
+						</Button>
+					</DialogTrigger>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Edit Resource</DialogTitle>
+							<ResourceForm
+								submitAction={editResourceAction}
+								defaultValues={{ id, title, description, url, imageUrl, category }}
+							/>
+						</DialogHeader>
+					</DialogContent>
+				</Dialog>
 				<DeleteResourceBtn resourceId={id} />
 			</div>
 
