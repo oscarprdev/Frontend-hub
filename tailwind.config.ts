@@ -11,7 +11,10 @@ export default {
 		extend: {
 			colors: {
 				background: 'var(--background)',
-				foreground: 'var(--foreground)',
+				foreground: {
+					DEFAULT: 'var(--foreground)',
+					hover: 'var(--foreground-hover)',
+				},
 				accent: {
 					DEFAULT: 'var(--accent)',
 					light: 'var(--accent-light)',

@@ -6,6 +6,7 @@
 	:root {
 		--background: hsl(0 0 95%);
 		--foreground: hsl(220 22% 10%);
+		--foreground-hover: hsl(218, 22%, 10%, 0.8);
 
 		--accent: hsl(220, 73%, 58%);
 		--accent-light: hsl(220, 67%, 65%);
@@ -28,6 +29,7 @@
 	.dark {
 		--background: hsl(220 22% 10%);
 		--foreground: hsl(0 0 95%);
+		--foreground-hover: hsl(0 0 95%, 0.8);
 
 		--accent-foreground: hsl(218 45% 18%);
 

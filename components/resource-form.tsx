@@ -2,9 +2,9 @@
 
 import { RESOURCE_CATEGORY } from '../lib/types/resources';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
+import OInput from './ui/input-animated';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Textarea } from './ui/textarea';
+import OTextarea from './ui/textarea-animated';
 import Form from 'next/form';
 import React from 'react';
 
@@ -20,45 +20,18 @@ const ResourceForm = ({ submitAction }: ResourceFormProps) => {
 	const [state, formAction, isPending] = React.useActionState(submitAction, initialState);
 
 	return (
-		<Form action={formAction} className="flex flex-col gap-3">
+		<Form action={formAction} className="flex flex-col gap-4">
 			<label className="mt-2 w-full">
-				<p className="mb-1 text-sm">Title</p>
-				<Input
-					className="w-full border p-2"
-					type="text"
-					name="title"
-					placeholder="Enter resource title"
-					required
-				/>
+				<OInput id="title" text="Title" />
 			</label>
 			<label className="w-full">
-				<p className="mb-1 text-sm">Description</p>
-				<Textarea
-					className="w-full border p-2"
-					name="description"
-					placeholder="Enter resource description"
-					required
-				/>
+				<OTextarea id="description" text="Description" />
 			</label>
 			<label className="w-full">
-				<p className="mb-1 text-sm">URL</p>
-				<Input
-					className="w-full border p-2"
-					type="text"
-					name="url"
-					placeholder="Enter resource URL"
-					required
-				/>
+				<OInput id="url" text="Url" />
 			</label>
 			<label className="w-full">
-				<p className="mb-1 text-sm">Image URL</p>
-				<Input
-					className="w-full border p-2"
-					type="text"
-					name="imageUrl"
-					placeholder="Enter resource image URL"
-					required
-				/>
+				<OInput id="imageUrl" text="Image URL" />
 			</label>
 
 			<Select name="category">
