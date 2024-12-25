@@ -25,17 +25,14 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 			{/* Sidebar */}
 			<aside className="col-span-2 h-full min-h-screen pl-5">
 				<ResourceSearch />
-				<div className="h-[calc(100vh-100px)] overflow-y-scroll">
+				<div aria-label="scroll" className="h-[calc(100vh-100px)] overflow-y-scroll">
 					<Accordion
 						type="single"
 						collapsible
 						className="h-full w-full"
 						defaultValue={Object.values(RESOURCE_CATEGORY)[0]}>
 						{Object.values(RESOURCE_CATEGORY).map(category => (
-							<AccordionItem
-								key={crypto.randomUUID()}
-								value={category}
-								className="-mb-4 first-of-type:-mt-3">
+							<AccordionItem key={crypto.randomUUID()} value={category}>
 								<AccordionTrigger className="text-md font-bold capitalize">
 									{category.toLowerCase()}
 								</AccordionTrigger>
@@ -50,7 +47,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 				</div>
 			</aside>
 			{/* Resources */}
-			<section className="col-span-6 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-5 pt-2">
+			<section
+				aria-label="scroll"
+				className="col-span-6 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-5 pt-2">
 				<div className="col-span-6 ml-2 flex w-full flex-wrap items-center gap-2">
 					{Object.values(RESOURCE_CATEGORY).map(cat => (
 						<Link
