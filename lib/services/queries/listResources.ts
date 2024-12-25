@@ -1,4 +1,4 @@
-import { DATABASE_URL } from '../../constants';
+import { DATABASE_URL, ITEMS_PER_PAGE } from '../../constants';
 import { RESOURCE_CATEGORY, Resource, ResourceInfra } from '../../types/resources';
 import { mapResourceInfraToApplication } from '../mappers/resource';
 import { neon } from '@neondatabase/serverless';
@@ -14,7 +14,7 @@ function returnResourcesList(result: ResourceInfra[]): Resource[] {
 
 export async function listResources({
 	category,
-	items = 9,
+	items = ITEMS_PER_PAGE,
 }: ListResourcesPayload): Promise<Resource[]> {
 	const sql = neon(DATABASE_URL);
 	let result = [];
