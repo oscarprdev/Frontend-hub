@@ -21,10 +21,36 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 	const category = (await searchParams)?.category as RESOURCE_CATEGORY;
 
 	return (
-		<div className="size-screen flex flex-col p-5">
-			{/* Nav */}
-			<nav className="size-screen grid grid-cols-8">
+		<main className="relative grid max-h-screen w-screen grid-cols-8 overflow-hidden">
+			{/* Sidebar */}
+			<aside className="col-span-2 h-full min-h-screen pl-5">
 				<ResourceSearch />
+				<div className="h-[calc(100vh-100px)] overflow-y-scroll">
+					<Accordion
+						type="single"
+						collapsible
+						className="h-full w-full"
+						defaultValue={Object.values(RESOURCE_CATEGORY)[0]}>
+						{Object.values(RESOURCE_CATEGORY).map(category => (
+							<AccordionItem
+								key={crypto.randomUUID()}
+								value={category}
+								className="-mb-4 first-of-type:-mt-3">
+								<AccordionTrigger className="text-md font-bold capitalize">
+									{category.toLowerCase()}
+								</AccordionTrigger>
+								<AccordionContent>
+									<Suspense fallback={<ResourceListSidebarFallback />}>
+										<ResourceListSidebar category={category} />
+									</Suspense>
+								</AccordionContent>
+							</AccordionItem>
+						))}
+					</Accordion>
+				</div>
+			</aside>
+			{/* Resources */}
+			<section className="col-span-6 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-5 pt-2">
 				<div className="col-span-6 ml-2 flex w-full flex-wrap items-center gap-2">
 					{Object.values(RESOURCE_CATEGORY).map(cat => (
 						<Link
@@ -40,39 +66,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 						</Link>
 					))}
 				</div>
-			</nav>
-			<main className="size-screen grid grid-cols-8 p-5">
-				{/* Sidebar */}
-				<aside className="col-span-2 h-screen pr-8">
-					<Accordion
-						type="single"
-						collapsible
-						className="w-full"
-						defaultValue={Object.values(RESOURCE_CATEGORY)[0]}>
-						{Object.values(RESOURCE_CATEGORY).map(category => (
-							<AccordionItem
-								key={crypto.randomUUID()}
-								value={category}
-								className="-mb-4 first-of-type:-mt-3">
-								<AccordionTrigger className="text-lg font-bold capitalize">
-									{category.toLowerCase()}
-								</AccordionTrigger>
-								<AccordionContent>
-									<Suspense fallback={<ResourceListSidebarFallback />}>
-										<ResourceListSidebar category={category} />
-									</Suspense>
-								</AccordionContent>
-							</AccordionItem>
-						))}
-					</Accordion>
-				</aside>
-				{/* Main content */}
-				<section className="col-span-6 flex flex-col gap-5">
-					<Suspense fallback={<ResourceListFallback />}>
-						<ResourceList category={category} />
-					</Suspense>
-				</section>
-			</main>
-		</div>
+				<Suspense fallback={<ResourceListFallback />}>
+					<ResourceList category={category} />
+				</Suspense>
+			</section>
+		</main>
 	);
 }

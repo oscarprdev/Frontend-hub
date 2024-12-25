@@ -33,7 +33,7 @@ const ResourceSearch = () => {
 	}, 600);
 
 	return (
-		<div className="relative col-span-2">
+		<div className="relative col-span-2 py-2">
 			<form ref={formRef} className="w-full">
 				<label className="relative h-10 w-full">
 					<Search className="absolute left-2 top-1" size={15} />

@@ -37,9 +37,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className={`${geistSans.variable} ${geistMono.variable}`}>
+			<body className={`${geistSans.variable} ${geistMono.variable} h-screen overflow-hidden`}>
 				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-					<header className="flex h-12 items-center justify-between border-b border-border-foreground px-4">
+					<header className="sticky top-0 z-10 flex h-12 items-center justify-between border-b border-border-foreground bg-background px-4">
 						<div className="flex items-center gap-2">
 							<Layers2 />
 							<h1 className="font-bold">Frontend/hub</h1>

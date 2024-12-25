@@ -48,16 +48,21 @@ const ResourceCard = ({
 
 			<p className="text-xs text-muted">{updatedAt}</p>
 			<div className="flex items-center gap-2">
-				<Link href={`/?category=${category}`} className="group flex w-fit shadow-sm">
+				<Link
+					href={`/?category=${category}`}
+					target="_blank"
+					className="group flex w-fit shadow-sm">
 					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 				</Link>
 				<DeleteResourceBtn resourceId={id} />
 			</div>
 
-			<Link href={url} target="_blank" className="w-fit text-xl font-bold hover:underline">
+			<Link href={url} target="_blank" className="-mt-1 w-fit text-xl font-bold hover:underline">
 				{title}
 			</Link>
-			<p className="line-clamp-3 max-w-[80ch] text-pretty text-sm text-muted">{description}</p>
+			<p className="-mt-2 line-clamp-3 max-w-[80ch] text-pretty text-xs text-muted">
+				{description}
+			</p>
 		</article>
 	);
 };
