@@ -18,7 +18,7 @@ const ResourceList = async ({
 	return (
 		<div className="flex w-full flex-col gap-5">
 			<h2 className="ml-2 text-4xl font-bold">All resources</h2>
-			<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 p-0">
+			<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 sm:gap-1">
 				{resources.map(resource => {
 					return (
 						<ResourceCard
@@ -49,7 +49,7 @@ const ResourceList = async ({
 const ResourceListFallback = () => (
 	<div className="flex w-full flex-col gap-5">
 		<h2 className="ml-2 text-4xl font-bold">All resources</h2>
-		<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 p-0">
+		<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
 			{Array.from({ length: 6 }).map((_, i) => {
 				return (
 					<article key={i} className="flex animate-pulse flex-col gap-2 p-2">

@@ -37,7 +37,11 @@
 		--border: hsl(222 16% 71%);
 		--border-foreground: hsl(248 14% 18%);
 
+		--destructive: hsl(0 84.2% 60.2%);
+		--destructive-light: hsla(0, 15%, 61%, 0.468);
+
 		--muted: hsl(240, 4%, 77%);
+		--muted-light: hsl(240, 2%, 28%);
 		--input: hsl(240 10% 3.9%);
 		--ring: hsl(240 5.9% 90%);
 	}

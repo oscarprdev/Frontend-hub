@@ -30,8 +30,8 @@ const ResourceCard = ({
 	updatedAt,
 }: ResourceCardProps) => {
 	return (
-		<article id={`resource-card-${id}`} className="flex flex-col gap-2 p-2">
-			<picture className="group relative inset-0 h-[25vh] max-h-[250px] overflow-hidden rounded-2xl shadow duration-500 ease-in-out hover:-translate-y-3">
+		<article id={`resource-card-${id}`} className="flex flex-col gap-1 p-2 md:gap-2">
+			<picture className="group relative inset-0 h-[25vh] overflow-hidden rounded-2xl border border-muted-light shadow duration-500 ease-in-out hover:-translate-y-3 sm:h-[30vh] md:h-[25vh]">
 				<Image
 					src={imageUrl}
 					alt={title}
@@ -80,10 +80,10 @@ const ResourceCard = ({
 				<DeleteResourceBtn resourceId={id} />
 			</div>
 
-			<Link href={url} target="_blank" className="-mt-1 w-fit text-xl font-bold hover:underline">
+			<Link href={url} target="_blank" className="w-fit text-xl font-bold hover:underline md:-mt-1">
 				{title}
 			</Link>
-			<p className="-mt-2 line-clamp-3 max-w-[80ch] text-pretty text-xs text-muted">
+			<p className="line-clamp-3 max-w-[80ch] text-pretty text-xs text-muted md:-mt-2">
 				{description}
 			</p>
 		</article>

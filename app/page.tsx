@@ -27,7 +27,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 	return (
 		<main className="relative grid max-h-screen w-screen grid-cols-8 overflow-hidden">
 			{/* Sidebar */}
-			<aside className="col-span-2 h-full min-h-screen pl-5">
+			<aside className="hidden h-full min-h-screen pl-5 md:col-span-2 md:block">
 				<ResourceSearch />
 				<div aria-label="scroll" className="h-[calc(100vh-100px)] overflow-y-scroll">
 					<Accordion
@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 			{/* Resources */}
 			<section
 				aria-label="scroll"
-				className="col-span-6 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-5 pt-2">
+				className="col-span-8 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-5 pt-2 md:col-span-6">
 				<div className="col-span-6 ml-2 flex w-full flex-wrap items-center gap-2">
 					{Object.values(RESOURCE_CATEGORY).map(cat => (
 						<Link
