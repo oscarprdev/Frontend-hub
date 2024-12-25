@@ -68,7 +68,7 @@ const ResourceForm = ({ submitAction, defaultValues }: ResourceFormProps) => {
 			<Button className="mt-5 px-5 py-2" type="submit" disabled={isPending}>
 				{isPending ? 'Submitting...' : 'Submit'}
 			</Button>
-			{state.message && (
+			{state?.message && (
 				<div className="flex w-full items-center gap-1 rounded-md border border-destructive p-2 text-destructive">
 					<ShieldAlert size={15} />
 					<p aria-live="polite" className="text-xs">
