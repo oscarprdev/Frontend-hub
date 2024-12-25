@@ -20,6 +20,12 @@ const ResourceListSidebar = async ({ category }: { category: RESOURCE_CATEGORY }
 	);
 };
 
-const ResourceListSidebarFallback = () => <div>Loading resources</div>;
+const ResourceListSidebarFallback = () => (
+	<div className="flex flex-col items-start gap-2">
+		{Array.from({ length: 3 }).map((_, i) => (
+			<span key={i} className="h-4 w-1/2 animate-pulse rounded-full bg-muted-light"></span>
+		))}
+	</div>
+);
 
 export { ResourceListSidebar, ResourceListSidebarFallback };
