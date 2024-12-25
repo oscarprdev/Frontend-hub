@@ -12,13 +12,17 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '~/components/ui/accordion';
+import { ITEMS_PER_PAGE } from '~/lib/constants';
 import { RESOURCE_CATEGORY } from '~/lib/types/resources';
 import { cn } from '~/lib/utils/cn';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function Home({ searchParams }: { searchParams: SearchParams }) {
-	const category = (await searchParams)?.category as RESOURCE_CATEGORY;
+	const { category, items } = (await searchParams) as {
+		category: RESOURCE_CATEGORY;
+		items: string;
+	};
 
 	return (
 		<main className="relative grid max-h-screen w-screen grid-cols-8 overflow-hidden">
@@ -66,7 +70,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 					))}
 				</div>
 				<Suspense fallback={<ResourceListFallback />}>
-					<ResourceList category={category} />
+					<ResourceList
+						category={category}
+						items={isNaN(Number(items)) ? ITEMS_PER_PAGE : Number(items)}
+					/>
 				</Suspense>
 			</section>
 		</main>

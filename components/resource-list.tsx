@@ -1,10 +1,19 @@
 import { RESOURCE_CATEGORY } from '../lib/types/resources';
+import LoadMore from './load-more';
 import ResourceCard from './resource-card';
-import React from 'react';
+import { Button } from './ui/button';
+import { Loader } from 'lucide-react';
+import React, { Suspense } from 'react';
 import { listResources } from '~/lib/services/queries/listResources';
 
-const ResourceList = async ({ category }: { category: RESOURCE_CATEGORY }) => {
-	const resources = await listResources({ category });
+const ResourceList = async ({
+	category,
+	items,
+}: {
+	category: RESOURCE_CATEGORY;
+	items: number;
+}) => {
+	const resources = await listResources({ category, items });
 
 	return (
 		<div className="flex w-full flex-col gap-5">
@@ -25,6 +34,14 @@ const ResourceList = async ({ category }: { category: RESOURCE_CATEGORY }) => {
 					);
 				})}
 			</div>
+			<Suspense
+				fallback={
+					<Button size={'icon'} variant={'ghost'} className="w-fit">
+						<Loader size={16} className="animate-spin" />
+					</Button>
+				}>
+				<LoadMore category={category} currentResourcesLength={resources.length} />
+			</Suspense>
 		</div>
 	);
 };
