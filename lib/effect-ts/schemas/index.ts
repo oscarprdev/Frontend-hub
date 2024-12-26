@@ -5,16 +5,6 @@ export enum RESOURCE_CATEGORY {
 	BACKEND = 'BACKEND',
 }
 
-export const DateToString = Schema.transform(Schema.ValidDateFromSelf, Schema.String, {
-	decode: from =>
-		from.toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-		}),
-	encode: to => new Date(to),
-});
-
 export class Resource extends Schema.Class<Resource>('Resource')({
 	id: Schema.UUID,
 	title: Schema.String,
@@ -41,3 +31,17 @@ export class ResourceDb extends Schema.Class<ResourceDb>('ResourceDb')({
 	updatedat: Schema.ValidDateFromSelf,
 	createdat: Schema.ValidDateFromSelf,
 }) {}
+
+export const FormatDate = Schema.transform(Schema.ValidDateFromSelf, Schema.String, {
+	decode: from =>
+		from.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		}),
+	encode: to => new Date(to),
+});
+
+export const DescribeResourceByTitleInput = Schema.Struct({
+	title: Schema.String,
+});

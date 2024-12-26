@@ -1,5 +1,6 @@
 'use client';
 
+import { Effect } from 'effect';
 import { Loader, Search } from 'lucide-react';
 import Link from 'next/link';
 import React, { ChangeEvent } from 'react';
@@ -10,10 +11,11 @@ import { Resource } from '~/lib/types/resources';
 const ResourceSearch = () => {
 	const [resourceSearched, setResourceSearched] = React.useState<Resource[]>([]);
 	const [isSearching, setIsSearching] = React.useState(false);
+	const [actionError, setActionError] = React.useState<string | null>(null);
 	const formRef = React.useRef<HTMLFormElement>(null);
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
-	const handleSearchInput = useDebouncedCallback(async (event: ChangeEvent<HTMLInputElement>) => {
+	const handleSearchInput = useDebouncedCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setIsSearching(true);
 
 		const target = event.target;
@@ -22,15 +24,28 @@ const ResourceSearch = () => {
 			setResourceSearched([]);
 		}
 
-		const resource = await describeResourceByTitleAction({ title: target.value });
+		const effect = Effect.gen(function* () {
+			yield* Effect.tryPromise({
+				try: async () => {
+					const response = await describeResourceByTitleAction({ title: target.value });
+					if (typeof response === 'string') {
+						setActionError(response);
+					} else {
+						React.startTransition(() => {
+							setIsSearching(false);
+							setActionError(null);
+							setResourceSearched(response);
+						});
+					}
+				},
+				catch: error => {
+					console.log(error);
+					setActionError('Unexpected error');
+				},
+			});
+		});
 
-		if (!resource) {
-			setIsSearching(false);
-			setResourceSearched([]);
-		}
-
-		setIsSearching(false);
-		setResourceSearched(resource);
+		Effect.runPromise(effect);
 	}, 600);
 
 	React.useEffect(() => {
@@ -46,6 +61,11 @@ const ResourceSearch = () => {
 
 	return (
 		<div className="relative col-span-2 py-2">
+			{actionError && (
+				<p className="absolute -bottom-2 right-0 text-xs font-bold text-destructive">
+					{actionError}
+				</p>
+			)}
 			<form ref={formRef} className="w-full">
 				<label className="relative h-10 w-full">
 					<Search className="absolute left-2 top-1" size={15} />

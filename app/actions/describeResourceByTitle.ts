@@ -1,16 +1,14 @@
 'use server';
 
 import { Effect } from 'effect';
-import { describeByTitle } from '~/lib/effects/resources/describe';
-import { Resource } from '~/lib/types/resources';
+import { describeByTitle } from '~/lib/effect-ts/layers/describe-resource';
+import { Resource } from '~/lib/effect-ts/schemas';
 
 export const describeResourceByTitleAction = async ({
 	title,
 }: {
 	title: string;
-}): Promise<Resource[]> =>
+}): Promise<Resource[] | string> =>
 	Effect.runPromise(describeByTitle(title)).then(result => {
-		if (typeof result === 'string') return [];
-
 		return result;
 	});
