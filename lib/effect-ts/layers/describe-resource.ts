@@ -30,6 +30,9 @@ export const describeResourceBySearch = (input: typeof DescribeResourceBySearchI
             Effect.catchTags({
                 DescribeBySearchInputError: ({ message }) => Effect.succeed(message),
                 NeonQueryError: ({ message }) => Effect.succeed(message),
-                ParseError: () => Effect.succeed('Error parsing input'),
+                ParseError: error => {
+                    console.log(error.message);
+                    return Effect.succeed('Error parsing input');
+                },
             })
         );

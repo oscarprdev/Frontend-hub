@@ -1,35 +1,32 @@
+import { Category } from './category';
+import { CreatedAt } from './created-at';
+import { Description } from './description';
+import { Id } from './id';
+import { ImageURL } from './image-url';
+import { Title } from './title';
+import { UpdatedAt, UpdatedAtStr } from './updated-at';
+import { URL } from './url';
 import { Schema } from 'effect';
 
-export enum RESOURCE_CATEGORY {
-    FRONTEND = 'FRONTEND',
-    BACKEND = 'BACKEND',
-}
-
 export class Resource extends Schema.Class<Resource>('Resource')({
-    id: Schema.UUID,
-    title: Schema.String,
-    description: Schema.String,
-    category: Schema.Enums(RESOURCE_CATEGORY),
-    url: Schema.String,
-    imageUrl: Schema.TemplateLiteral(
-        'https://pub-dd6ab2097287461d82afdef8be7ad9a4.r2.dev/',
-        Schema.String
-    ),
-    updatedAt: Schema.String,
+    id: Id,
+    title: Title,
+    description: Description,
+    category: Category,
+    url: URL,
+    imageUrl: ImageURL,
+    updatedAt: UpdatedAtStr,
 }) {}
 
 export class ResourceDb extends Schema.Class<ResourceDb>('ResourceDb')({
-    id: Schema.UUID,
-    title: Schema.String,
-    description: Schema.String,
-    url: Schema.String,
-    category: Schema.Enums(RESOURCE_CATEGORY),
-    imageurl: Schema.TemplateLiteral(
-        'https://pub-dd6ab2097287461d82afdef8be7ad9a4.r2.dev/',
-        Schema.String
-    ),
-    updatedat: Schema.ValidDateFromSelf,
-    createdat: Schema.ValidDateFromSelf,
+    id: Id,
+    title: Title,
+    description: Description,
+    category: Category,
+    url: URL,
+    imageurl: ImageURL,
+    updatedat: UpdatedAt,
+    createdat: CreatedAt,
 }) {}
 
 export const FormatDate = Schema.transform(Schema.ValidDateFromSelf, Schema.String, {
@@ -43,5 +40,5 @@ export const FormatDate = Schema.transform(Schema.ValidDateFromSelf, Schema.Stri
 });
 
 export const DescribeResourceBySearchInput = Schema.Struct({
-    title: Schema.String,
+    title: Title,
 });
