@@ -5,7 +5,7 @@ import { Loader, Search } from 'lucide-react';
 import Link from 'next/link';
 import React, { ChangeEvent } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { describeResourceByTitleAction } from '~/app/actions/describeResourceByTitle';
+import { describeResourceBySearchAction } from '~/app/actions/describe-resource-by-search';
 import { Resource } from '~/lib/types/resources';
 
 const ResourceSearch = () => {
@@ -15,21 +15,28 @@ const ResourceSearch = () => {
 	const formRef = React.useRef<HTMLFormElement>(null);
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
+	const resetSearch = React.useCallback((error: string | null) => {
+		React.startTransition(() => {
+			setIsSearching(false);
+			setResourceSearched([]);
+			setActionError(error);
+		});
+	}, []);
+
 	const handleSearchInput = useDebouncedCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setIsSearching(true);
 
 		const target = event.target;
-		if (!(target instanceof HTMLInputElement)) {
-			setIsSearching(false);
-			setResourceSearched([]);
+		if (!(target instanceof HTMLInputElement) || !target.value) {
+			return resetSearch(null);
 		}
 
 		const effect = Effect.gen(function* () {
 			yield* Effect.tryPromise({
 				try: async () => {
-					const response = await describeResourceByTitleAction({ title: target.value });
+					const response = await describeResourceBySearchAction({ title: target.value });
 					if (typeof response === 'string') {
-						setActionError(response);
+						resetSearch(response);
 					} else {
 						React.startTransition(() => {
 							setIsSearching(false);
@@ -38,9 +45,8 @@ const ResourceSearch = () => {
 						});
 					}
 				},
-				catch: error => {
-					console.log(error);
-					setActionError('Unexpected error');
+				catch: () => {
+					resetSearch('Unexpected error');
 				},
 			});
 		});
@@ -55,9 +61,9 @@ const ResourceSearch = () => {
 			}
 
 			inputRef.current.value = '';
-			setResourceSearched([]);
+			resetSearch(null);
 		});
-	}, []);
+	}, [resetSearch]);
 
 	return (
 		<div className="relative col-span-2 py-2">

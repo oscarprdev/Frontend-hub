@@ -1,15 +1,9 @@
-import { Data, Effect } from 'effect';
+import { Data } from 'effect';
 
 export class NeonQueryError extends Data.TaggedError('NeonQueryError')<{
 	message: string;
 }> {}
 
-export class MissingTitleError extends Data.TaggedError('MissingTitleError')<{
+export class DescribeBySearchInputError extends Data.TaggedError('DescribeBySearchInputError')<{
 	message: string;
 }> {}
-
-export const describeByTitleErrors = Effect.catchTags({
-	MissingTitleError: ({ message }) => Effect.succeed(message),
-	NeonQueryError: ({ message }) => Effect.succeed(message),
-	ParseError: ({ message }) => Effect.succeed(message),
-});

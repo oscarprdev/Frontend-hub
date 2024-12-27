@@ -42,6 +42,6 @@ export const FormatDate = Schema.transform(Schema.ValidDateFromSelf, Schema.Stri
 	encode: to => new Date(to),
 });
 
-export const DescribeResourceByTitleInput = Schema.Struct({
+export const DescribeResourceBySearchInput = Schema.Struct({
 	title: Schema.String,
 });
