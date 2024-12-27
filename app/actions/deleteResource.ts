@@ -4,9 +4,9 @@ import { deleteResource } from '../../lib/services/queries/deleteResource';
 import { revalidatePath } from 'next/cache';
 
 export const deleteResourceAction = async ({ resourceId }: { resourceId: string }) => {
-	const result = await deleteResource({ resourceId });
+    const result = await deleteResource({ resourceId });
 
-	revalidatePath('/');
+    revalidatePath('/');
 
-	return result;
+    return result;
 };

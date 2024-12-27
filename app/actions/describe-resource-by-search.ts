@@ -5,8 +5,8 @@ import { describeResourceBySearch } from '~/lib/effect-ts/layers/describe-resour
 import { DescribeResourceBySearchInput, Resource } from '~/lib/effect-ts/schemas';
 
 export const describeResourceBySearchAction = async (
-	input: typeof DescribeResourceBySearchInput.Encoded
+    input: typeof DescribeResourceBySearchInput.Encoded
 ): Promise<Resource[] | string> =>
-	Effect.runPromise(describeResourceBySearch(input)).then(result => {
-		return result;
-	});
+    Effect.runPromise(describeResourceBySearch(input)).then(result => {
+        return result;
+    });
