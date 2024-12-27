@@ -5,7 +5,6 @@ import {
     DescribeResourceInfra,
     DescribeResourceService,
     FormatResource,
-    HandleResourcesDb,
     ValidateSearchInput,
 } from '../services/describe-resource.service';
 import { Effect, Layer } from 'effect';
@@ -21,7 +20,6 @@ export const describeResourceBySearch = (input: typeof DescribeResourceBySearchI
                     DescribeResourceInfra.Default,
                     DescribeResourceService.Default,
                     DatabaseService.Default,
-                    HandleResourcesDb.Default,
                     DecodeResourcesDb.Default,
                     FormatResource.Default,
                     ValidateSearchInput.Default

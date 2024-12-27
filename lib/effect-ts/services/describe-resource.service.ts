@@ -51,20 +51,6 @@ export class DecodeResourcesDb extends Context.Tag('DecodeResourcesDb')<
     static readonly Default = Layer.effect(this, decodeResourcesDbEffect);
 }
 
-export class HandleResourcesDb extends Effect.Service<HandleResourcesDb>()('HandleResourcesDb', {
-    effect: Effect.gen(function* () {
-        const decodeResourcesDb = yield* DecodeResourcesDb;
-        const formatResource = yield* FormatResource;
-
-        return (input: unknown) =>
-            Effect.gen(function* () {
-                const response = yield* decodeResourcesDb(input);
-                return response.map(formatResource);
-            });
-    }),
-    dependencies: [DecodeResourcesDb.Default, FormatResource.Default],
-}) {}
-
 export class DescribeResourceInfra extends Effect.Service<DescribeResourceInfra>()(
     'DescribeResourceInfra',
     {
@@ -97,7 +83,8 @@ export class DescribeResourceService extends Effect.Service<DescribeResourceServ
     {
         effect: Effect.gen(function* () {
             const infra = yield* DescribeResourceInfra;
-            const handleResourceDb = yield* HandleResourcesDb;
+            const decodeResourcesDb = yield* DecodeResourcesDb;
+            const formatResource = yield* FormatResource;
             const validateInput = yield* ValidateSearchInput;
 
             return {
@@ -105,13 +92,16 @@ export class DescribeResourceService extends Effect.Service<DescribeResourceServ
                     Effect.gen(function* () {
                         const validInput = yield* validateInput(input);
                         const response = yield* infra.bySearch(validInput);
-                        return yield* handleResourceDb(response);
+                        const decodedResponse = yield* decodeResourcesDb(response);
+
+                        return decodedResponse.map(formatResource);
                     }),
             };
         }),
         dependencies: [
             DescribeResourceInfra.Default,
-            HandleResourcesDb.Default,
+            DecodeResourcesDb.Default,
+            FormatResource.Default,
             ValidateSearchInput.Default,
         ],
     }
