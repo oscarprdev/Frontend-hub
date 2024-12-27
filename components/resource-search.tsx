@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { ChangeEvent } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { describeResourceByTitleAction } from '~/app/actions/describeResourceByTitle';
-import { Resource } from '~/lib/types/resources';
+import { Resource } from '~/lib/schemas/resource';
 
 const ResourceSearch = () => {
 	const [resourceSearched, setResourceSearched] = React.useState<Resource[]>([]);

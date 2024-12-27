@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
 import { listResourcesByCategory } from '~/lib/services/queries/listResources';
-import { RESOURCE_CATEGORY } from '~/lib/types/resources';
 
 const ResourceListSidebar = async ({ category }: { category: RESOURCE_CATEGORY }) => {
 	const resources = await listResourcesByCategory({ category });

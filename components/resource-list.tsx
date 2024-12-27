@@ -1,9 +1,9 @@
-import { RESOURCE_CATEGORY } from '../lib/types/resources';
 import LoadMore from './load-more';
 import ResourceCard from './resource-card';
 import { Button } from './ui/button';
 import { Loader } from 'lucide-react';
 import React, { Suspense } from 'react';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
 import { listResources } from '~/lib/services/queries/listResources';
 
 const ResourceList = async ({

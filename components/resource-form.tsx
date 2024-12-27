@@ -1,6 +1,5 @@
 'use client';
 
-import { RESOURCE_CATEGORY } from '../lib/types/resources';
 import { Button } from './ui/button';
 import OInput from './ui/input-animated';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
@@ -8,6 +7,7 @@ import OTextarea from './ui/textarea-animated';
 import { ShieldAlert } from 'lucide-react';
 import Form from 'next/form';
 import React from 'react';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
 
 type InitialState = { message: string; id?: string };
 

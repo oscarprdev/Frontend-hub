@@ -1,6 +1,6 @@
 import { DATABASE_URL } from '../../constants';
 import { Resource, ResourceInfra } from '../../types/resources';
-import { mapResourceInfraToApplication } from '../mappers/resource';
+import { mapResourceDbToApplication } from '../mappers/resource';
 import { neon } from '@neondatabase/serverless';
 
 export type DescribeResourcePayload = {
@@ -23,6 +23,6 @@ export async function describeResourceByTitle({ title }: { title: string }): Pro
 	]);
 
 	return result.length > 0
-		? (result as ResourceInfra[]).map(res => mapResourceInfraToApplication(res))
+		? (result as ResourceInfra[]).map(res => mapResourceDbToApplication(res))
 		: [];
 }

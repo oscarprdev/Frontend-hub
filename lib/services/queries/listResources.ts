@@ -1,6 +1,6 @@
 import { DATABASE_URL, ITEMS_PER_PAGE } from '../../constants';
 import { RESOURCE_CATEGORY, Resource, ResourceInfra } from '../../types/resources';
-import { mapResourceInfraToApplication } from '../mappers/resource';
+import { mapResourceDbToApplication } from '../mappers/resource';
 import { neon } from '@neondatabase/serverless';
 
 export type ListResourcesPayload = {
@@ -9,7 +9,7 @@ export type ListResourcesPayload = {
 };
 
 function returnResourcesList(result: ResourceInfra[]): Resource[] {
-	return result.length > 0 ? result.map(res => mapResourceInfraToApplication(res)) : [];
+	return result.length > 0 ? result.map(res => mapResourceDbToApplication(res)) : [];
 }
 
 export async function listResources({

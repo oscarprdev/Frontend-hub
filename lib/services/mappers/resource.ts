@@ -1,7 +1,8 @@
-import { Resource, ResourceInfra } from '~/lib/types/resources';
+import { Resource } from '~/lib/schemas/resource';
+import { ResourceDb } from '~/lib/schemas/resource-db';
 import { dateToString } from '~/lib/utils/dates';
 
-export const mapResourceInfraToApplication = (resource: ResourceInfra): Resource => {
+export const mapResourceDbToApplication = (resource: ResourceDb): Resource => {
 	return {
 		id: resource.id,
 		title: resource.title,
