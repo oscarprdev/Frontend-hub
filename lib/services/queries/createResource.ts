@@ -2,21 +2,10 @@ import { DATABASE_URL } from '../../constants';
 import { InputError, handleError } from '../errors';
 import { neon } from '@neondatabase/serverless';
 import * as v from 'valibot';
-import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
+import { Resource } from '~/lib/schemas/resource';
 import { Either, successResponse } from '~/lib/utils/either';
 
-const InputSchema = v.object({
-	id: v.string('Id is required'),
-	title: v.string('Title is required'),
-	description: v.string('Description is required'),
-	url: v.string('URL is required'),
-	imageUrl: v.string('imageURL is required'),
-	category: v.enum(RESOURCE_CATEGORY),
-});
-
-export async function createResource(
-	input: v.InferOutput<typeof InputSchema>
-): Promise<Either<string, string>> {
+export async function createResource(input: Resource): Promise<Either<string, string>> {
 	try {
 		const { id, title, description, url, imageUrl, category } = validateInput(input);
 
@@ -32,9 +21,9 @@ export async function createResource(
 	}
 }
 
-const validateInput = (input: v.InferOutput<typeof InputSchema>) => {
+const validateInput = (input: Resource) => {
 	try {
-		return v.parse(InputSchema, input);
+		return v.parse(Resource, input);
 	} catch (error) {
 		throw new InputError(error instanceof Error ? error.message : 'Input not valid');
 	}

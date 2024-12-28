@@ -5,7 +5,7 @@ import { Label } from './ui/label';
 import OInput from './ui/o-input';
 import OTextarea from './ui/o-textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { ShieldAlert } from 'lucide-react';
+import { CircleAlert } from 'lucide-react';
 import Form from 'next/form';
 import React from 'react';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
@@ -40,19 +40,28 @@ const ResourceForm = ({ submitAction, defaultValues }: ResourceFormProps) => {
 			<OInput
 				id="title"
 				label="Title"
+				name="title"
 				placeholder="Enter resource title"
 				value={defaultValues?.title}
 			/>
 			<OTextarea
 				id="description"
+				name="description"
 				label="Description"
 				placeholder="Enter description"
 				value={defaultValues?.description}
 			/>
-			<OInput id="url" label="Url" placeholder="Enter resource URL" value={defaultValues?.url} />
+			<OInput
+				id="url"
+				label="Url"
+				name="url"
+				placeholder="Enter resource URL"
+				value={defaultValues?.url}
+			/>
 
 			<OInput
 				id="imageUrl"
+				name="imageUrl"
 				label="Image URL"
 				placeholder="Enter resource imageURL"
 				value={defaultValues?.imageUrl}
@@ -82,9 +91,14 @@ const ResourceForm = ({ submitAction, defaultValues }: ResourceFormProps) => {
 				{isPending ? 'Submitting...' : 'Submit'}
 			</Button>
 			{state?.message && (
-				<div className="flex w-full items-center gap-1 rounded-md border border-destructive p-2 text-destructive">
-					<ShieldAlert size={15} />
-					<p aria-live="polite" className="text-xs">
+				<div className="rounded-lg border border-red-500/50 px-4 py-3 text-red-600">
+					<p className="text-sm">
+						<CircleAlert
+							className="-mt-0.5 me-3 inline-flex opacity-60"
+							size={16}
+							strokeWidth={2}
+							aria-hidden="true"
+						/>
 						{state.message}
 					</p>
 				</div>
