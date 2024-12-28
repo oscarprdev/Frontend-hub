@@ -52,10 +52,7 @@ const ResourceCard = ({
 
 			<p className="text-xs text-muted">{updatedAt}</p>
 			<div className="flex items-center gap-2">
-				<Link
-					href={`/?category=${category}`}
-					target="_blank"
-					className="group flex w-fit shadow-sm">
+				<Link href={`/?category=${category}`} className="group flex w-fit shadow-sm">
 					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 				</Link>
 				<Dialog>

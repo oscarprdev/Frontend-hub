@@ -12,6 +12,7 @@ const ResourceListSidebar = async ({ category }: { category: RESOURCE_CATEGORY }
 				<Link
 					key={resource.id}
 					href={resource.url}
+					target="_blank"
 					className="rounded-full p-2 duration-300 hover:bg-accent-foreground">
 					{resource.title}
 				</Link>
