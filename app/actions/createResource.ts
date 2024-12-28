@@ -2,30 +2,20 @@
 
 import { createResource } from '../../lib/services/queries/createResource';
 import { redirect } from 'next/navigation';
-import { RESOURCE_CATEGORY, Resource } from '~/lib/types/resources';
+import { isError } from '~/lib/utils/either';
+import { extractResource } from '~/lib/utils/extract-resource';
 
 export const createResourceAction = async (_: unknown, formData: FormData) => {
 	const id = crypto.randomUUID();
-	const title = formData.get('title') as string;
-	const description = formData.get('description') as string;
-	const url = formData.get('url') as string;
-	const imageUrl = formData.get('imageUrl') as string;
-	const category = formData.get('category') as RESOURCE_CATEGORY;
 
-	const resource = {
-		id,
-		title,
-		description,
-		url,
-		imageUrl,
-		category,
-	} satisfies Resource;
+	const parsedResponse = extractResource(id, formData);
+	if (isError(parsedResponse)) {
+		return { message: parsedResponse.error };
+	}
 
-	try {
-		await createResource(resource);
-	} catch (error) {
-		console.error(error);
-		return { message: 'Failed to create resource' };
+	const response = await createResource(parsedResponse.success);
+	if (isError(response)) {
+		return { message: response.error };
 	}
 
 	redirect('/');

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { editResourceAction } from '~/app/actions/editResource';
-import { RESOURCE_CATEGORY } from '~/lib/types/resources';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 
 type ResourceCardProps = {
 	id: string;
@@ -52,10 +52,7 @@ const ResourceCard = ({
 
 			<p className="text-xs text-muted">{updatedAt}</p>
 			<div className="flex items-center gap-2">
-				<Link
-					href={`/?category=${category}`}
-					target="_blank"
-					className="group flex w-fit shadow-sm">
+				<Link href={`/?category=${category}`} className="group flex w-fit shadow-sm">
 					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 				</Link>
 				<Dialog>

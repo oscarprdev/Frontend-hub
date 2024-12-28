@@ -13,7 +13,7 @@ import {
 	AccordionTrigger,
 } from '~/components/ui/accordion';
 import { ITEMS_PER_PAGE } from '~/lib/constants';
-import { RESOURCE_CATEGORY } from '~/lib/types/resources';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { cn } from '~/lib/utils/cn';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -27,7 +27,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 	return (
 		<main className="relative grid max-h-screen w-screen grid-cols-8 overflow-hidden">
 			{/* Sidebar */}
-			<aside className="hidden h-full min-h-screen pl-5 md:col-span-2 md:block">
+			<aside className="hidden h-full min-h-screen pl-2 md:col-span-2 md:block md:pl-5">
 				<ResourceSearch />
 				<div aria-label="scroll" className="h-[calc(100vh-100px)] overflow-y-scroll">
 					<Accordion
@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 			{/* Resources */}
 			<section
 				aria-label="scroll"
-				className="col-span-8 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-5 pt-2 md:col-span-6">
+				className="col-span-8 flex h-[calc(100vh-50px)] flex-col gap-5 overflow-y-scroll p-2 md:col-span-6 md:p-5 md:pt-2">
 				<div className="col-span-6 ml-2 flex w-full flex-wrap items-center gap-2">
 					{Object.values(RESOURCE_CATEGORY).map(cat => (
 						<Link

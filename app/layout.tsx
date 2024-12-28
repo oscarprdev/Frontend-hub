@@ -3,6 +3,7 @@ import './globals.css';
 import { Layers2, Plus } from 'lucide-react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Toaster } from 'sonner';
 import ResourceForm from '~/components/resource-form';
 import ResourceSearch from '~/components/resource-search';
 import { ThemeProvider } from '~/components/theme-provider';
@@ -67,6 +68,7 @@ export default function RootLayout({
 					</header>
 					{children}
 				</ThemeProvider>
+				<Toaster richColors />
 			</body>
 		</html>
 	);

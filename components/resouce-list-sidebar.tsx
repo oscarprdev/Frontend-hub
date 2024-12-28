@@ -1,17 +1,21 @@
+import ErrorToast from './error-toast';
 import Link from 'next/link';
 import React from 'react';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { listResourcesByCategory } from '~/lib/services/queries/listResources';
-import { RESOURCE_CATEGORY } from '~/lib/types/resources';
+import { isError } from '~/lib/utils/either';
 
 const ResourceListSidebar = async ({ category }: { category: RESOURCE_CATEGORY }) => {
-	const resources = await listResourcesByCategory({ category });
+	const result = await listResourcesByCategory({ category });
+	if (isError(result)) return <ErrorToast error={result.error} />;
 
 	return (
 		<div className="-my-2 flex flex-col items-start">
-			{resources.map(resource => (
+			{result.success.map(resource => (
 				<Link
 					key={resource.id}
 					href={resource.url}
+					target="_blank"
 					className="rounded-full p-2 duration-300 hover:bg-accent-foreground">
 					{resource.title}
 				</Link>

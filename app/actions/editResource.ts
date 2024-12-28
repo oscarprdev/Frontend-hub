@@ -2,7 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { editResource } from '~/lib/services/queries/editResource';
-import { RESOURCE_CATEGORY, Resource } from '~/lib/types/resources';
+import { isError } from '~/lib/utils/either';
+import { extractResource } from '~/lib/utils/extract-resource';
 
 export const editResourceAction = async (
 	initialState: { message: string; id?: string },
@@ -11,26 +12,14 @@ export const editResourceAction = async (
 	if (!initialState.id) return { message: 'Resource Id is required' };
 
 	const id = initialState.id;
-	const title = formData.get('title') as string;
-	const description = formData.get('description') as string;
-	const url = formData.get('url') as string;
-	const imageUrl = formData.get('imageUrl') as string;
-	const category = formData.get('category') as RESOURCE_CATEGORY;
+	const parsedResponse = extractResource(id, formData);
+	if (isError(parsedResponse)) {
+		return { message: parsedResponse.error };
+	}
 
-	const resource = {
-		id,
-		title,
-		description,
-		url,
-		imageUrl,
-		category,
-	} satisfies Resource;
-
-	try {
-		await editResource(resource);
-	} catch (error) {
-		console.error(error);
-		return { message: 'Failed to edit resource' };
+	const response = await editResource(parsedResponse.success);
+	if (isError(response)) {
+		return { message: response.error };
 	}
 
 	redirect('/');
