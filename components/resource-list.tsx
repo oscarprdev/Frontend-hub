@@ -1,10 +1,12 @@
+import ErrorToast from './error-toast';
 import LoadMore from './load-more';
 import ResourceCard from './resource-card';
 import { Button } from './ui/button';
 import { Loader } from 'lucide-react';
 import React, { Suspense } from 'react';
-import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { listResources } from '~/lib/services/queries/listResources';
+import { isError } from '~/lib/utils/either';
 
 const ResourceList = async ({
 	category,
@@ -13,13 +15,14 @@ const ResourceList = async ({
 	category: RESOURCE_CATEGORY;
 	items: number;
 }) => {
-	const resources = await listResources({ category, items });
+	const result = await listResources({ category, items });
+	if (isError(result)) return <ErrorToast error={result.error} />;
 
 	return (
 		<div className="flex w-full flex-col gap-5">
 			<h2 className="ml-2 text-4xl font-bold">All resources</h2>
 			<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 sm:gap-1">
-				{resources.map(resource => {
+				{result.success.map(resource => {
 					return (
 						<ResourceCard
 							key={resource.id}
@@ -40,7 +43,7 @@ const ResourceList = async ({
 						<Loader size={16} className="animate-spin" />
 					</Button>
 				}>
-				<LoadMore category={category} currentResourcesLength={resources.length} />
+				<LoadMore category={category} currentResourcesLength={result.success.length} />
 			</Suspense>
 		</div>
 	);

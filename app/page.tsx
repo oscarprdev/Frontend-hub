@@ -13,7 +13,7 @@ import {
 	AccordionTrigger,
 } from '~/components/ui/accordion';
 import { ITEMS_PER_PAGE } from '~/lib/constants';
-import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { cn } from '~/lib/utils/cn';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;

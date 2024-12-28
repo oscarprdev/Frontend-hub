@@ -1,18 +1,20 @@
+import { Category } from './category';
+import { Description } from './description';
+import { Id } from './id';
 import { ImageUrl } from './image-url';
+import { Title } from './title';
+import { URL } from './url';
 import * as v from 'valibot';
 
-export enum RESOURCE_CATEGORY {
-	FRONTEND = 'FRONTEND',
-	BACKEND = 'BACKEND',
-}
+
 
 export const Resource = v.object({
-	id: v.pipe(v.string(), v.uuid('Resource ID must be a UUID')),
-	title: v.string('Resource title must be a string'),
-	description: v.string('Resource description must be a string'),
-	url: v.pipe(v.string(), v.url('Resource URL must be a valid URL')),
+	id: Id,
+	title: Title,
+	description: Description,
+	url: URL,
 	imageUrl: ImageUrl,
-	category: v.enum(RESOURCE_CATEGORY, 'Resource category must be a valid category'),
+	category: Category,
 	updatedAt: v.optional(v.string('Resource updated at must be a string')),
 });
 

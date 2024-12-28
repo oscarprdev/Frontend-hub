@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { ShieldAlert } from 'lucide-react';
 import Form from 'next/form';
 import React from 'react';
-import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 
 type InitialState = { message: string; id?: string };
 

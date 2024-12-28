@@ -1,8 +1,10 @@
+import ErrorToast from './error-toast';
 import Link from 'next/link';
 import React from 'react';
 import { ITEMS_PER_PAGE } from '~/lib/constants';
-import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { countResources } from '~/lib/services/queries/listResources';
+import { isError } from '~/lib/utils/either';
 
 const LoadMore = async ({
 	currentResourcesLength,
@@ -11,11 +13,12 @@ const LoadMore = async ({
 	currentResourcesLength: number;
 	category: RESOURCE_CATEGORY;
 }) => {
-	const count = await countResources();
+	const result = await countResources();
+	if (isError(result)) return <ErrorToast error={result.error} />;
 
 	return (
 		<>
-			{count > currentResourcesLength && (
+			{result.success > currentResourcesLength && (
 				<Link
 					className="w-fit rounded-full bg-accent-foreground px-4 py-2 text-xs text-muted duration-300 hover:bg-accent-light hover:text-background"
 					href={

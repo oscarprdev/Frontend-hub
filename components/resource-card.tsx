@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { editResourceAction } from '~/app/actions/editResource';
-import { RESOURCE_CATEGORY } from '~/lib/schemas/resource';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 
 type ResourceCardProps = {
 	id: string;
