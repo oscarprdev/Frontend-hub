@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { editResourceAction } from '~/app/actions/editResource';
+import { auth } from '~/auth';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 
 type ResourceCardProps = {
@@ -20,7 +21,7 @@ type ResourceCardProps = {
 	updatedAt?: string;
 };
 
-const ResourceCard = ({
+const ResourceCard = async ({
 	id,
 	title,
 	description,
@@ -29,6 +30,8 @@ const ResourceCard = ({
 	category,
 	updatedAt,
 }: ResourceCardProps) => {
+	const session = await auth();
+
 	return (
 		<article id={`resource-card-${id}`} className="flex flex-col gap-1 p-2 md:gap-2">
 			<picture className="group relative inset-0 h-[25vh] overflow-hidden rounded-2xl border border-muted-light shadow duration-500 ease-in-out hover:-translate-y-3 sm:h-[30vh] md:h-[25vh]">
@@ -55,26 +58,30 @@ const ResourceCard = ({
 				<Link href={`/?category=${category}`} className="group flex w-fit shadow-sm">
 					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 				</Link>
-				<Dialog>
-					<DialogTrigger asChild>
-						<Button
-							variant={'outline'}
-							size={'icon'}
-							className="size-8 rounded-full bg-border-foreground text-muted">
-							<Pencil />
-						</Button>
-					</DialogTrigger>
-					<DialogContent>
-						<DialogHeader>
-							<DialogTitle>Edit Resource</DialogTitle>
-							<ResourceForm
-								submitAction={editResourceAction}
-								defaultValues={{ id, title, description, url, imageUrl, category }}
-							/>
-						</DialogHeader>
-					</DialogContent>
-				</Dialog>
-				<DeleteResourceBtn resourceId={id} />
+				{session?.user && (
+					<>
+						<Dialog>
+							<DialogTrigger asChild>
+								<Button
+									variant={'outline'}
+									size={'icon'}
+									className="size-8 rounded-full bg-border-foreground text-muted">
+									<Pencil />
+								</Button>
+							</DialogTrigger>
+							<DialogContent>
+								<DialogHeader>
+									<DialogTitle>Edit Resource</DialogTitle>
+									<ResourceForm
+										submitAction={editResourceAction}
+										defaultValues={{ id, title, description, url, imageUrl, category }}
+									/>
+								</DialogHeader>
+							</DialogContent>
+						</Dialog>
+						<DeleteResourceBtn resourceId={id} />
+					</>
+				)}
 			</div>
 
 			<Link href={url} target="_blank" className="w-fit text-xl font-bold hover:underline md:-mt-1">
