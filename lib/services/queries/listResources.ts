@@ -1,14 +1,15 @@
 import { DATABASE_URL, ITEMS_PER_PAGE } from '../../constants';
-import { RESOURCE_CATEGORY, Resource, ResourceInfra } from '../../types/resources';
 import { mapResourceDbToApplication } from '../mappers/resource';
 import { neon } from '@neondatabase/serverless';
+import { RESOURCE_CATEGORY, Resource } from '~/lib/schemas/resource';
+import { ResourceDb } from '~/lib/schemas/resource-db';
 
 export type ListResourcesPayload = {
 	items?: number;
 	category?: RESOURCE_CATEGORY;
 };
 
-function returnResourcesList(result: ResourceInfra[]): Resource[] {
+function returnResourcesList(result: ResourceDb[]): Resource[] {
 	return result.length > 0 ? result.map(res => mapResourceDbToApplication(res)) : [];
 }
 
@@ -29,7 +30,7 @@ export async function listResources({
 		);
 	}
 
-	return returnResourcesList(result as ResourceInfra[]);
+	return returnResourcesList(result as ResourceDb[]);
 }
 
 export async function listResourcesByCategory({
@@ -49,7 +50,7 @@ export async function listResourcesByCategory({
 		[category]
 	);
 
-	return returnResourcesList(result as ResourceInfra[]);
+	return returnResourcesList(result as ResourceDb[]);
 }
 
 export async function countResources() {
