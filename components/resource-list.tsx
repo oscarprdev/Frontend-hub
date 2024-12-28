@@ -20,7 +20,7 @@ const ResourceList = async ({
 
 	return (
 		<div className="flex w-full flex-col gap-5">
-			<h2 className="ml-2 text-4xl font-bold">All resources</h2>
+			<h2 className="ml-2 text-2xl font-bold md:text-4xl">All resources</h2>
 			<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 sm:gap-1">
 				{result.success.map(resource => {
 					return (
