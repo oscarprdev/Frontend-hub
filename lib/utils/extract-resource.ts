@@ -1,4 +1,5 @@
-import { RESOURCE_CATEGORY, Resource } from '../schemas/resource';
+import { RESOURCE_CATEGORY } from '../schemas/category';
+import { Resource } from '../schemas/resource';
 import { errorResponse, successResponse } from './either';
 import * as v from 'valibot';
 
