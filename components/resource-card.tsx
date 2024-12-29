@@ -1,7 +1,6 @@
 'use client';
 
 import DeleteResourceBtn from './delete-resource-btn';
-import FavsBtn from './favs-btn';
 import ResourceForm from './resource-form';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -9,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { MoveUpRight, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { editResourceAction } from '~/app/actions/editResource';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 
@@ -33,7 +32,8 @@ const ResourceCard = ({
 	category,
 	updatedAt,
 	isUserLogged,
-}: ResourceCardProps) => {
+	children,
+}: PropsWithChildren<ResourceCardProps>) => {
 	return (
 		<article id={`resource-card-${id}`} className="flex flex-col gap-1 p-2 md:gap-2">
 			<picture className="group relative inset-0 h-[25vh] overflow-hidden rounded-2xl border border-muted-light shadow duration-500 ease-in-out hover:-translate-y-3 sm:h-[30vh] md:h-[25vh]">
@@ -60,7 +60,7 @@ const ResourceCard = ({
 				<Link href={`/?category=${category}`} className="group flex w-fit shadow-sm">
 					<Badge className="w-fit duration-300 group-hover:bg-muted-light">{category}</Badge>
 				</Link>
-				<FavsBtn id={id} />
+				{children}
 				{isUserLogged && (
 					<>
 						<Dialog>

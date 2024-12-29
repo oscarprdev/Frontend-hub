@@ -1,5 +1,6 @@
 'use client';
 
+import { OptimisticFavsBtn } from './favs-btn';
 import ResourceCard from './resource-card';
 import { ResourceListFallback } from './resource-list';
 import React from 'react';
@@ -12,7 +13,7 @@ import { isError } from '~/lib/utils/either';
 const ResourceListFavs = ({ isUserLogged }: { isUserLogged: boolean }) => {
 	const [isFetching, setIsFetching] = React.useState(false);
 	const [resources, setResources] = React.useState<Resource[]>([]);
-	const { favs } = useFavsStore();
+	const { favs, setFav } = useFavsStore();
 
 	React.useEffect(() => {
 		setIsFetching(true);
@@ -24,7 +25,19 @@ const ResourceListFavs = ({ isUserLogged }: { isUserLogged: boolean }) => {
 			})
 			.catch(() => toast.error('Unexpected Error fetching favourites resources'))
 			.finally(() => setIsFetching(false));
-	}, [favs]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const [optimisticResources, updateResources] = React.useOptimistic<Resource[], string>(
+		resources.filter(res => favs.includes(res.id)),
+		(state, id) => state.filter(res => res.id !== id)
+	);
+
+	const onFavClick = (id: string) =>
+		React.startTransition(() => {
+			updateResources(id);
+			setFav(id);
+		});
 
 	return (
 		<>
@@ -32,8 +45,8 @@ const ResourceListFavs = ({ isUserLogged }: { isUserLogged: boolean }) => {
 				<div className="flex w-full flex-col gap-5">
 					<h2 className="ml-2 text-2xl font-bold md:text-4xl">Favourites</h2>
 					<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 sm:gap-1">
-						{!isFetching && resources.length > 0 ? (
-							resources.map(resource => {
+						{!isFetching && optimisticResources.length > 0 ? (
+							optimisticResources.map(resource => {
 								return (
 									<ResourceCard
 										key={resource.id}
@@ -44,8 +57,9 @@ const ResourceListFavs = ({ isUserLogged }: { isUserLogged: boolean }) => {
 										url={resource.url}
 										category={resource.category}
 										updatedAt={resource.updatedAt}
-										isUserLogged={isUserLogged}
-									/>
+										isUserLogged={isUserLogged}>
+										<OptimisticFavsBtn id={resource.id} onFavClick={onFavClick} />
+									</ResourceCard>
 								);
 							})
 						) : (

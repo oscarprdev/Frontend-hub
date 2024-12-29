@@ -11,9 +11,34 @@ const FavsBtn = ({ id }: { id: string }) => {
 	const onFavClick = () => {
 		setFav(id);
 	};
+
+	return <CommonFavsBtn id={id} favs={favs} onFavClick={onFavClick} />;
+};
+
+const OptimisticFavsBtn = ({
+	id,
+	onFavClick,
+}: {
+	id: string;
+	onFavClick: (id: string) => void;
+}) => {
+	const { favs } = useFavsStore();
+
+	return <CommonFavsBtn id={id} favs={favs} onFavClick={onFavClick} />;
+};
+
+const CommonFavsBtn = ({
+	id,
+	favs,
+	onFavClick,
+}: {
+	id: string;
+	favs: string[];
+	onFavClick: (id: string) => void;
+}) => {
 	return (
 		<Button
-			onClick={onFavClick}
+			onClick={() => onFavClick(id)}
 			className="group size-8 rounded-full bg-border-foreground text-muted duration-300"
 			size={'icon'}
 			variant={'destructive'}>
@@ -26,4 +51,4 @@ const FavsBtn = ({ id }: { id: string }) => {
 	);
 };
 
-export default FavsBtn;
+export { FavsBtn, OptimisticFavsBtn };

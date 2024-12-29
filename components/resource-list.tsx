@@ -1,4 +1,5 @@
 import ErrorToast from './error-toast';
+import { FavsBtn } from './favs-btn';
 import LoadMore from './load-more';
 import ResourceCard from './resource-card';
 import ResourceListFavs from './resource-list-favs';
@@ -19,9 +20,11 @@ const ResourceList = async ({
 }) => {
 	const session = await auth();
 
+	// Render resource favs on client
 	if (category === ('FAVS' as RESOURCE_CATEGORY))
 		return <ResourceListFavs isUserLogged={Boolean(session?.user)} />;
 
+	// Render resources on server
 	const result = await listResources({
 		category: RESOURCE_CATEGORY[category] || undefined,
 		items,
@@ -43,8 +46,9 @@ const ResourceList = async ({
 							url={resource.url}
 							category={resource.category}
 							updatedAt={resource.updatedAt}
-							isUserLogged={Boolean(session?.user)}
-						/>
+							isUserLogged={Boolean(session?.user)}>
+							<FavsBtn id={resource.id} />
+						</ResourceCard>
 					);
 				})}
 			</div>
