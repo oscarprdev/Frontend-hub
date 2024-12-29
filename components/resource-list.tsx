@@ -1,9 +1,11 @@
 import ErrorToast from './error-toast';
 import LoadMore from './load-more';
 import ResourceCard from './resource-card';
+import ResourceListFavs from './resource-list-favs';
 import { Button } from './ui/button';
 import { Loader } from 'lucide-react';
 import React, { Suspense } from 'react';
+import { auth } from '~/auth';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { listResources } from '~/lib/services/queries/listResources';
 import { isError } from '~/lib/utils/either';
@@ -15,7 +17,15 @@ const ResourceList = async ({
 	category: RESOURCE_CATEGORY;
 	items: number;
 }) => {
-	const result = await listResources({ category, items });
+	const session = await auth();
+
+	if (category === ('FAVS' as RESOURCE_CATEGORY))
+		return <ResourceListFavs isUserLogged={Boolean(session?.user)} />;
+
+	const result = await listResources({
+		category: RESOURCE_CATEGORY[category] || undefined,
+		items,
+	});
 	if (isError(result)) return <ErrorToast error={result.error} />;
 
 	return (
@@ -33,6 +43,7 @@ const ResourceList = async ({
 							url={resource.url}
 							category={resource.category}
 							updatedAt={resource.updatedAt}
+							isUserLogged={Boolean(session?.user)}
 						/>
 					);
 				})}
@@ -49,9 +60,9 @@ const ResourceList = async ({
 	);
 };
 
-const ResourceListFallback = () => (
+const ResourceListFallback = ({ title }: { title?: string }) => (
 	<div className="flex w-full flex-col gap-5">
-		<h2 className="ml-2 text-4xl font-bold">All resources</h2>
+		<h2 className="ml-2 text-4xl font-bold">{title || 'All resources'}</h2>
 		<div className="m-0 box-border grid w-full grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5">
 			{Array.from({ length: 6 }).map((_, i) => {
 				return (
