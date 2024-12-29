@@ -23,12 +23,12 @@ export async function listResources(
     const sql = neon(DATABASE_URL);
     let result = [];
     if (!category) {
-      result = await sql(`SELECT * FROM resources ORDER BY updatedat DESC LIMIT ($1) OFFSET 0 ;`, [
+      result = await sql(`SELECT * FROM resources ORDER BY title ASC LIMIT ($1) OFFSET 0 ;`, [
         itemsPerPage,
       ]);
     } else {
       result = await sql(
-        `SELECT * FROM resources WHERE category = ($1) ORDER BY updatedat DESC LIMIT ($2) OFFSET 0 ;`,
+        `SELECT * FROM resources WHERE category = ($1) ORDER BY title ASC LIMIT ($2) OFFSET 0 ;`,
         [category, itemsPerPage]
       );
     }
@@ -61,7 +61,7 @@ export async function listResourcesByCategory(
 
     const sql = neon(DATABASE_URL);
     const result = await sql(
-      `SELECT id, title, url FROM resources WHERE category = ($1) ORDER BY updatedat DESC;`,
+      `SELECT id, title, url FROM resources WHERE category = ($1) ORDER BY title ASC;`,
       [category]
     );
 
@@ -84,10 +84,9 @@ export async function listResourcesFavs(
     const { favs } = validateListResourcesFavsInput(input);
 
     const sql = neon(DATABASE_URL);
-    const result = await sql(
-      `SELECT * FROM resources WHERE id = ANY($1) ORDER BY updatedat DESC;`,
-      [favs]
-    );
+    const result = await sql(`SELECT * FROM resources WHERE id = ANY($1) ORDER BY title ASC;`, [
+      favs,
+    ]);
 
     const validResult = validateResourcesDbResult(result);
 
@@ -97,10 +96,21 @@ export async function listResourcesFavs(
   }
 }
 
-export async function countResources() {
+const CountResourcesInput = v.object({
+  category: v.optional(v.enum(RESOURCE_CATEGORY)),
+});
+
+export async function countResources(input: v.InferOutput<typeof CountResourcesInput>) {
   try {
+    const { category } = validateCountResourcesInput(input);
+
     const sql = neon(DATABASE_URL);
-    const result = await sql(`SELECT COUNT(*) FROM resources;`);
+    let result = [];
+    if (category) {
+      result = await sql(`SELECT COUNT(*) FROM resources WHERE category = ($1);`, [category]);
+    } else {
+      result = await sql(`SELECT COUNT(*) FROM resources;`);
+    }
 
     return successResponse(validateCountDbResult(result[0].count));
   } catch (error) {
@@ -147,6 +157,14 @@ const validateListResourcesFavsInput = (
 ) => {
   try {
     return v.parse(ListResourcesFavsInputSchema, input);
+  } catch (error) {
+    throw new InputError(error instanceof Error ? error.message : 'Input not valid');
+  }
+};
+
+const validateCountResourcesInput = (input: v.InferOutput<typeof CountResourcesInput>) => {
+  try {
+    return v.parse(CountResourcesInput, input);
   } catch (error) {
     throw new InputError(error instanceof Error ? error.message : 'Input not valid');
   }

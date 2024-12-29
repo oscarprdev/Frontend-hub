@@ -13,7 +13,7 @@ const LoadMore = async ({
   currentResourcesLength: number;
   category: RESOURCE_CATEGORY;
 }) => {
-  const result = await countResources();
+  const result = await countResources({ category });
   if (isError(result)) return <ErrorToast error={result.error} />;
 
   return (
