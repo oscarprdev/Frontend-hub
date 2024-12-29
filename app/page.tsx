@@ -39,7 +39,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             {Object.values(RESOURCE_CATEGORY).map(category => (
               <AccordionItem key={crypto.randomUUID()} value={category}>
                 <AccordionTrigger className="text-md font-bold capitalize">
-                  {category.toLowerCase()}
+                  {category.toLowerCase().replaceAll('_', ' ')}
                 </AccordionTrigger>
                 <AccordionContent>
                   <Suspense fallback={<ResourceListSidebarFallback />}>
@@ -66,7 +66,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                   : 'bg-transparent hover:bg-accent-foreground',
                 'grid place-items-center rounded-full border px-3 py-2 text-xs capitalize duration-300'
               )}>
-              {cat}
+              {cat.replaceAll('_', ' ')}
             </Link>
           ))}
           <FavsCategory category={category} />

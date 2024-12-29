@@ -13,3 +13,7 @@ export const mapResourceDbToApplication = (resource: ResourceDb): Resource => {
     updatedAt: resource.updatedat ? dateToString(resource.updatedat) : '-',
   };
 };
+
+export const handleResourcesDb = (result: ResourceDb[]): Resource[] => {
+  return result.length > 0 ? result.map(res => mapResourceDbToApplication(res)) : [];
+};

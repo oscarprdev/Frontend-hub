@@ -1,9 +1,11 @@
 import { DATABASE_URL } from '../../constants';
-import { InputError, OutputError, handleError } from '../errors';
+import { DbResultError, InputError, OutputError, handleError } from '../errors';
+import { handleResourcesDb } from '../mappers/resource';
 import { neon } from '@neondatabase/serverless';
 import * as v from 'valibot';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { Resource } from '~/lib/schemas/resource';
+import { ResourceDb } from '~/lib/schemas/resource-db';
 import { Either, successResponse } from '~/lib/utils/either';
 
 const InputSchema = v.object({
@@ -27,7 +29,10 @@ export async function editResource(
       [id, title, description, url, imageUrl, category]
     );
 
-    return successResponse(validateOutput(result));
+    const validResult = validateResourcesDbResult(result);
+    const resourceMapped = handleResourcesDb(validResult);
+
+    return successResponse(validateOutput(resourceMapped[0]));
   } catch (error) {
     return handleError(error, `Edit resource`);
   }
@@ -38,6 +43,14 @@ const validateInput = (input: v.InferOutput<typeof InputSchema>) => {
     return v.parse(InputSchema, input);
   } catch (error) {
     throw new InputError(error instanceof Error ? error.message : 'Input not valid');
+  }
+};
+
+const validateResourcesDbResult = (input: unknown) => {
+  try {
+    return v.parse(v.array(ResourceDb), input);
+  } catch (error) {
+    throw new DbResultError(error instanceof Error ? error.message : 'Db result not valid');
   }
 };
 

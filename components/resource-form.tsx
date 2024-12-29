@@ -42,21 +42,21 @@ const ResourceForm = ({ submitAction, defaultValues }: ResourceFormProps) => {
         label="Title"
         name="title"
         placeholder="Enter resource title"
-        value={defaultValues?.title}
+        defaultValue={defaultValues?.title}
       />
       <OTextarea
         id="description"
         name="description"
         label="Description"
         placeholder="Enter description"
-        value={defaultValues?.description}
+        defaultValue={defaultValues?.description}
       />
       <OInput
         id="url"
         label="Url"
         name="url"
         placeholder="Enter resource URL"
-        value={defaultValues?.url}
+        defaultValue={defaultValues?.url}
       />
 
       <OInput
@@ -64,14 +64,14 @@ const ResourceForm = ({ submitAction, defaultValues }: ResourceFormProps) => {
         name="imageUrl"
         label="Image URL"
         placeholder="Enter resource imageURL"
-        value={defaultValues?.imageUrl}
+        defaultValue={defaultValues?.imageUrl}
       />
 
       <div className="space-y-2">
         <Label htmlFor="category">Select category</Label>
         <Select
           name="category"
-          value={Object.values(RESOURCE_CATEGORY).find(
+          defaultValue={Object.values(RESOURCE_CATEGORY).find(
             category => category === defaultValues?.category
           )}>
           <SelectTrigger className="w-[180px]">

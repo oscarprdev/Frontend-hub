@@ -3,7 +3,9 @@
 import { Button } from './ui/button';
 import { Delete, Loader } from 'lucide-react';
 import React from 'react';
+import { toast } from 'sonner';
 import { deleteResourceAction } from '~/app/actions/deleteResource';
+import { isError } from '~/lib/utils/either';
 
 const DeleteResourceBtn = ({ resourceId }: { resourceId: string }) => {
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -11,7 +13,10 @@ const DeleteResourceBtn = ({ resourceId }: { resourceId: string }) => {
   const handleDelete = async () => {
     setIsDeleting(true);
 
-    await deleteResourceAction({ resourceId });
+    const response = await deleteResourceAction({ resourceId });
+    if (isError(response)) return toast.error(response.error);
+
+    toast.success(response.success);
 
     setIsDeleting(false);
   };

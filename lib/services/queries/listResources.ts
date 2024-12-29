@@ -1,6 +1,6 @@
 import { DATABASE_URL, ITEMS_PER_PAGE } from '../../constants';
 import { DbResultError, InputError, handleError } from '../errors';
-import { mapResourceDbToApplication } from '../mappers/resource';
+import { handleResourcesDb } from '../mappers/resource';
 import { neon } from '@neondatabase/serverless';
 import * as v from 'valibot';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
@@ -107,10 +107,6 @@ export async function countResources() {
     return handleError(error, 'Count Resources');
   }
 }
-
-const handleResourcesDb = (result: ResourceDb[]): Resource[] => {
-  return result.length > 0 ? result.map(res => mapResourceDbToApplication(res)) : [];
-};
 
 const validateListResourcesInput = (input: v.InferOutput<typeof ListResourcesInputSchema>) => {
   try {
