@@ -1,3 +1,5 @@
+'use server';
+
 import ErrorToast from './error-toast';
 import { FavsBtn } from './favs-btn';
 import LoadMore from './load-more';
@@ -7,6 +9,7 @@ import { Button } from './ui/button';
 import { Loader } from 'lucide-react';
 import React, { Suspense } from 'react';
 import { auth } from '~/auth';
+import { listResourcesCached } from '~/lib/redis/list-resources';
 import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { countResources, listResources } from '~/lib/services/queries/listResources';
 import { isError } from '~/lib/utils/either';
@@ -25,11 +28,14 @@ const ResourceList = async ({
     return <ResourceListFavs isUserLogged={Boolean(session?.user)} />;
 
   // Render resources on server
-  const result = await listResources({
+  let result = await listResourcesCached({
     category: RESOURCE_CATEGORY[category] || undefined,
     items,
   });
-  if (isError(result)) return <ErrorToast error={result.error} />;
+  if (isError(result)) {
+    result = await listResources({ category: RESOURCE_CATEGORY[category] || undefined, items });
+    if (isError(result)) return <ErrorToast error={result.error} />;
+  }
 
   const countResult = await countResources({ category });
   if (isError(countResult)) return <ErrorToast error={countResult.error} />;

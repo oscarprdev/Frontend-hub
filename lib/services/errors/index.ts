@@ -27,6 +27,13 @@ export class CredentialsError extends Error {
   }
 }
 
+export class RedisError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'RedisError';
+  }
+}
+
 export const handleError = (error: unknown, action: string) => {
   if (error instanceof InputError) {
     return errorResponse(`Input validation error: ${error.message} at ${action}`);
@@ -36,6 +43,8 @@ export const handleError = (error: unknown, action: string) => {
     return errorResponse(`Db error: ${error.message} at ${action}`);
   } else if (error instanceof CredentialsError) {
     return errorResponse(`Credentials error: ${error.message}`);
+  } else if (error instanceof RedisError) {
+    return errorResponse(`RedisError: ${error.message}`);
   } else if (error instanceof Error) {
     return errorResponse(`Error: ${error.message}`);
   } else {
