@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
+import FavsCategory from '~/components/favs-category';
 import {
 	ResourceListSidebar,
 	ResourceListSidebarFallback,
@@ -68,6 +69,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 							{cat}
 						</Link>
 					))}
+					<FavsCategory category={category} />
 				</div>
 				<Suspense fallback={<ResourceListFallback />}>
 					<ResourceList

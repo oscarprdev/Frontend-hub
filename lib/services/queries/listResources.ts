@@ -73,6 +73,30 @@ export async function listResourcesByCategory(
 	}
 }
 
+const ListResourcesFavsInputSchema = v.object({
+	favs: v.array(v.string()),
+});
+
+export async function listResourcesFavs(
+	input: v.InferOutput<typeof ListResourcesFavsInputSchema>
+): Promise<Either<string, Resource[]>> {
+	try {
+		const { favs } = validateListResourcesFavsInput(input);
+
+		const sql = neon(DATABASE_URL);
+		const result = await sql(
+			`SELECT * FROM resources WHERE id = ANY($1) ORDER BY updatedat DESC;`,
+			[favs]
+		);
+
+		const validResult = validateResourcesDbResult(result);
+
+		return successResponse(handleResourcesDb(validResult));
+	} catch (error) {
+		return handleError(error, 'List Favs Resources');
+	}
+}
+
 export async function countResources() {
 	try {
 		const sql = neon(DATABASE_URL);
@@ -119,6 +143,16 @@ const validateResourcesDbResult = (input: unknown) => {
 		return v.parse(v.array(ResourceDb), input);
 	} catch (error) {
 		throw new DbResultError(error instanceof Error ? error.message : 'Db result not valid');
+	}
+};
+
+const validateListResourcesFavsInput = (
+	input: v.InferOutput<typeof ListResourcesFavsInputSchema>
+) => {
+	try {
+		return v.parse(ListResourcesFavsInputSchema, input);
+	} catch (error) {
+		throw new InputError(error instanceof Error ? error.message : 'Input not valid');
 	}
 };
 
