@@ -8,42 +8,42 @@ import Header from '~/components/header';
 import { ThemeProvider } from '~/components/theme-provider';
 
 const geistSans = Geist({
-	variable: '--font-geist-sans',
-	subsets: ['latin'],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-	title: 'frontend/hub',
-	description: 'A place to find and rediscover frontend resources',
+  title: 'frontend/hub',
+  description: 'A place to find and rediscover frontend resources',
 };
 
 export default function RootLayout({
-	children,
-	params: { session },
+  children,
+  params: { session },
 }: Readonly<{
-	children: React.ReactNode;
-	params: { session: Session };
+  children: React.ReactNode;
+  params: { session: Session };
 }>) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<body className={`${geistSans.variable} ${geistMono.variable} h-screen overflow-hidden`}>
-				<SessionProvider session={session}>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="dark"
-						enableSystem
-						disableTransitionOnChange>
-						<Header />
-						{children}
-					</ThemeProvider>
-					<Toaster richColors />
-				</SessionProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} h-screen overflow-hidden`}>
+        <SessionProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange>
+            <Header />
+            {children}
+          </ThemeProvider>
+          <Toaster richColors />
+        </SessionProvider>
+      </body>
+    </html>
+  );
 }
