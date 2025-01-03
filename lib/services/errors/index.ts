@@ -34,6 +34,13 @@ export class RedisError extends Error {
   }
 }
 
+export class NotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'NotFoundError';
+  }
+}
+
 export const handleError = (error: unknown, action: string) => {
   if (error instanceof InputError) {
     return errorResponse(`Input validation error: ${error.message} at ${action}`);
@@ -45,6 +52,8 @@ export const handleError = (error: unknown, action: string) => {
     return errorResponse(`Credentials error: ${error.message}`);
   } else if (error instanceof RedisError) {
     return errorResponse(`RedisError: ${error.message}`);
+  } else if (error instanceof NotFoundError) {
+    return errorResponse(`NotFoundError: ${error.message}`);
   } else if (error instanceof Error) {
     return errorResponse(`Error: ${error.message}`);
   } else {

@@ -14,11 +14,14 @@ export const createResourceAction = async (_: unknown, formData: FormData) => {
     return { message: parsedResponse.error };
   }
 
-  await addCacheResource(parsedResponse.success);
-
   const response = await createResource(parsedResponse.success);
   if (isError(response)) {
     return { message: response.error };
+  }
+
+  const cacheResponse = await addCacheResource(response.success);
+  if (isError(cacheResponse)) {
+    return { message: cacheResponse.error };
   }
 
   redirect('/');

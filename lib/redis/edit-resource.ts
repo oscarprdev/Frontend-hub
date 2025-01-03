@@ -4,7 +4,7 @@ import { Either, successResponse } from '../utils/either';
 import { redis } from './client';
 import * as v from 'valibot';
 
-export const addCacheResource = async (input: ResourceDb): Promise<Either<string, string>> => {
+export const editCacheResource = async (input: ResourceDb): Promise<Either<string, string>> => {
   try {
     const resource = validateInput(input);
 
@@ -12,12 +12,16 @@ export const addCacheResource = async (input: ResourceDb): Promise<Either<string
     if (!cachedResources)
       throw new RedisError(`Error getting resource with category: ${resource.category}`);
 
-    const updatedResources = [resource, ...JSON.parse(cachedResources)];
-    await redis.set(resource.category, JSON.stringify(updatedResources));
+    const resourcesParsed = JSON.parse(cachedResources) as ResourceDb[];
+    const resourceIndexToUpdate = resourcesParsed.findIndex(res => res.id === resource.id);
 
-    return successResponse('Resource successfully added to cache ');
+    resourcesParsed.splice(resourceIndexToUpdate, 1, resource);
+
+    await redis.set(resource.category, JSON.stringify(resourcesParsed));
+
+    return successResponse('Resource successfully editted from cache db');
   } catch (error) {
-    return handleError(error, 'add cache resource');
+    return handleError(error, 'edit cache resource');
   }
 };
 

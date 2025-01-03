@@ -29,11 +29,12 @@ const ResourceList = async ({
 
   // Render resources on server
   let result = await listResourcesCached({
-    category: RESOURCE_CATEGORY[category] || undefined,
+    category: RESOURCE_CATEGORY[category],
     items,
   });
+
   if (isError(result)) {
-    result = await listResources({ category: RESOURCE_CATEGORY[category] || undefined, items });
+    result = await listResources({ category: RESOURCE_CATEGORY[category], items });
     if (isError(result)) return <ErrorToast error={result.error} />;
   }
 
