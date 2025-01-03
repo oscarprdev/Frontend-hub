@@ -5,15 +5,22 @@ import { Delete, Loader } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
 import { deleteResourceAction } from '~/app/actions/deleteResource';
+import { RESOURCE_CATEGORY } from '~/lib/schemas/category';
 import { isError } from '~/lib/utils/either';
 
-const DeleteResourceBtn = ({ resourceId }: { resourceId: string }) => {
+const DeleteResourceBtn = ({
+  resourceId,
+  category,
+}: {
+  resourceId: string;
+  category: RESOURCE_CATEGORY;
+}) => {
   const [isDeleting, setIsDeleting] = React.useState(false);
 
   const handleDelete = async () => {
     setIsDeleting(true);
 
-    const response = await deleteResourceAction({ resourceId });
+    const response = await deleteResourceAction({ resourceId, category });
     if (isError(response)) return toast.error(response.error);
 
     toast.success(response.success);

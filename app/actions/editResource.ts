@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { editCacheResource } from '~/lib/redis/edit-resource';
 import { editResource } from '~/lib/services/queries/editResource';
 import { isError } from '~/lib/utils/either';
 import { extractResource } from '~/lib/utils/extract-resource';
@@ -20,6 +21,11 @@ export const editResourceAction = async (
   const response = await editResource(parsedResponse.success);
   if (isError(response)) {
     return { message: response.error };
+  }
+
+  const cacheResponse = await editCacheResource(response.success);
+  if (isError(cacheResponse)) {
+    return { message: cacheResponse.error };
   }
 
   redirect('/');

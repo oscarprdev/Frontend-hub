@@ -12,7 +12,7 @@ type FavsStore = FavsStoreState & FavsStoreActions;
 const useFavsStore = create<FavsStore>()(
   persist(
     set => ({
-      favs: JSON.parse(localStorage.getItem('favs') || ''),
+      favs: JSON.parse(localStorage.getItem('favs') || '[]'),
       setFav: (id: string) =>
         set((state: FavsStoreState) => {
           const isFavorite = state.favs.includes(id);

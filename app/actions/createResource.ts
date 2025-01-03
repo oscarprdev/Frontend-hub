@@ -2,6 +2,7 @@
 
 import { createResource } from '../../lib/services/queries/createResource';
 import { redirect } from 'next/navigation';
+import { addCacheResource } from '~/lib/redis/add-resource';
 import { isError } from '~/lib/utils/either';
 import { extractResource } from '~/lib/utils/extract-resource';
 
@@ -16,6 +17,11 @@ export const createResourceAction = async (_: unknown, formData: FormData) => {
   const response = await createResource(parsedResponse.success);
   if (isError(response)) {
     return { message: response.error };
+  }
+
+  const cacheResponse = await addCacheResource(response.success);
+  if (isError(cacheResponse)) {
+    return { message: cacheResponse.error };
   }
 
   redirect('/');

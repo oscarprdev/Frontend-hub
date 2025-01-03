@@ -82,7 +82,7 @@ const ResourceCard = ({
                 </DialogHeader>
               </DialogContent>
             </Dialog>
-            <DeleteResourceBtn resourceId={id} />
+            <DeleteResourceBtn resourceId={id} category={category} />
           </>
         )}
       </div>
