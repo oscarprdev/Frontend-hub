@@ -28,21 +28,8 @@ const Header = async () => {
         <div className="grid place-items-center md:hidden">
           <ResourceSearch />
         </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant={'outline'} size={'icon'}>
-              <User />
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Enter with credentials</DialogTitle>
-            </DialogHeader>
-            <LoginForm />
-          </DialogContent>
-        </Dialog>
 
-        {session?.user && (
+        {session?.user ? (
           <Dialog>
             <DialogTrigger asChild>
               <Button variant={'outline'} size={'icon'}>
@@ -54,6 +41,20 @@ const Header = async () => {
                 <DialogTitle>Add new Resource</DialogTitle>
                 <ResourceForm submitAction={createResourceAction} />
               </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant={'outline'} size={'icon'}>
+                <User />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Enter with credentials</DialogTitle>
+              </DialogHeader>
+              <LoginForm />
             </DialogContent>
           </Dialog>
         )}
