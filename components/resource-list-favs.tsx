@@ -2,7 +2,7 @@
 
 import { OptimisticFavsBtn } from './favs-btn';
 import ResourceCard from './resource-card';
-import { ResourceListFallback } from './resource-list';
+import ResourceListFallback from './resource-list-fallback';
 import React from 'react';
 import { toast } from 'sonner';
 import { listResourcesFavsAction } from '~/app/actions/listResourcesFavs';
@@ -16,6 +16,8 @@ const ResourceListFavs = ({ isUserLogged }: { isUserLogged: boolean }) => {
   const { favs, setFav } = useFavsStore();
 
   React.useEffect(() => {
+    if (favs.length === 0) return;
+
     setIsFetching(true);
     listResourcesFavsAction(favs)
       .then(response => {
@@ -25,8 +27,7 @@ const ResourceListFavs = ({ isUserLogged }: { isUserLogged: boolean }) => {
       })
       .catch(() => toast.error('Unexpected Error fetching favourites resources'))
       .finally(() => setIsFetching(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [favs]);
 
   const [optimisticResources, updateResources] = React.useOptimistic<Resource[], string>(
     resources.filter(res => favs.includes(res.id)),

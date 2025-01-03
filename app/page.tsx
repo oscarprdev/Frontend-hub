@@ -5,7 +5,8 @@ import {
   ResourceListSidebar,
   ResourceListSidebarFallback,
 } from '~/components/resouce-list-sidebar';
-import { ResourceList, ResourceListFallback } from '~/components/resource-list';
+import { ResourceList } from '~/components/resource-list';
+import ResourceListFallback from '~/components/resource-list-fallback';
 import ResourceSearch from '~/components/resource-search';
 import {
   Accordion,
