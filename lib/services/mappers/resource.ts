@@ -14,19 +14,6 @@ export const mapResourceDbToApplication = (resource: ResourceDb): Resource => {
   };
 };
 
-export const mapResourceAppToDb = (resource: Resource): ResourceDb => {
-  return {
-    id: resource.id,
-    title: resource.title,
-    description: resource.description,
-    url: resource.url,
-    imageurl: resource.imageUrl,
-    category: resource.category,
-    updatedat: resource.updatedAt ? new Date(resource.updatedAt) : new Date(),
-    createdat: new Date(),
-  };
-};
-
 export const handleResourcesDb = (result: ResourceDb[]): Resource[] => {
   return result.length > 0 ? result.map(res => mapResourceDbToApplication(res)) : [];
 };
