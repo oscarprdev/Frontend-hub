@@ -46,6 +46,7 @@ const ResourceCard = ({
         />
         <Link
           href={url}
+          target="_blank"
           className="group/link absolute bottom-1 right-2 flex items-center justify-between gap-2 rounded-full bg-gradient-to-t from-accent to-accent-light px-3.5 py-1.5 text-sm text-white opacity-0 transition-all duration-500 ease-in-out group-hover:-translate-y-2 group-hover:opacity-100">
           View
           <MoveUpRight
