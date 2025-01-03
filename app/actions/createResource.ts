@@ -2,11 +2,15 @@
 
 import { createResource } from '../../lib/services/queries/createResource';
 import { redirect } from 'next/navigation';
+import { auth } from '~/auth';
 import { addCacheResource } from '~/lib/redis/add-resource';
 import { isError } from '~/lib/utils/either';
 import { extractResource } from '~/lib/utils/extract-resource';
 
 export const createResourceAction = async (_: unknown, formData: FormData) => {
+  const session = await auth();
+  if (!session?.user) return { message: 'Not authorized' };
+
   const id = crypto.randomUUID();
 
   const parsedResponse = extractResource(id, formData);
