@@ -17,6 +17,8 @@ Site where I store all my favourites web dev resources to find them all in an ea
   - React
   - Nextjs
   - Tailwind
+  - Zustand (favs state)
 - Backend
   - Redis
   - PostgreSQL
+  - Volibot (type safety)
