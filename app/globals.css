@@ -30,7 +30,7 @@
   .dark {
     --background: hsl(220 22% 10%);
     --foreground: hsl(0 0 95%);
-    --foreground-hover: hsl(0 0 95%, 0.8);
+    --foreground-hover: hsla(0, 0%, 91%, 0.915);
 
     --accent-foreground: hsl(218 45% 18%);
 
